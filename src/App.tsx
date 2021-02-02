@@ -91,7 +91,7 @@ function App() {
 
   return (
     <div className="board-wrapper">
-      <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
+      <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
         {Object.entries(columns).map(([columnId, column]) => (
           <div
             style={{
