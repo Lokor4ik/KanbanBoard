@@ -1,26 +1,38 @@
-import { useState } from 'react';
+import { useState, CSSProperties } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+  DraggingStyle,
+  NotDraggingStyle,
+} from 'react-beautiful-dnd';
 
 import './App.css';
 
-/* const getItemStyle = (isDragging: boolean, draggableStyle: DraggableStyleModel) => ({
+type ModelGetItemStyle = (
+  isDragging: boolean,
+  restStyles: DraggingStyle | NotDraggingStyle | undefined
+) => CSSProperties | undefined;
+
+const getItemStyle: ModelGetItemStyle = (isDragging, restStyles) => ({
+  userSelect: 'none',
   padding: 16,
   margin: '0 0 8px 0',
-
-  // change background colour if dragging
-  background: isDragging ? 'lightgreen' : 'grey',
-
-  // styles we need to apply on draggables
-  ...draggableStyle,
+  minHeight: '50px',
+  backgroundColor: isDragging ? '#263B4A' : '#456C86',
+  color: 'white',
+  ...restStyles,
 });
 
 const getListStyle = (isDraggingOver: boolean) => ({
   background: isDraggingOver ? 'lightblue' : 'lightgrey',
-  padding: 8,
+  padding: 4,
   width: 250,
-}); */
+  minHeight: 500,
+});
 
 const itemsFromBackend = [
   { id: uuidv4(), content: 'First task' },
@@ -59,10 +71,13 @@ function App() {
     if (source.droppableId !== destination.droppableId) {
       const sourceColumn = columns[source.droppableId];
       const destColumn = columns[destination.droppableId];
+
       const sourceItems = [...sourceColumn.items];
       const destItems = [...destColumn.items];
+
       const [removed] = sourceItems.splice(source.index, 1);
       destItems.splice(destination.index, 0, removed);
+
       setColumns({
         ...columns,
         [source.droppableId]: {
@@ -77,8 +92,10 @@ function App() {
     } else {
       const column = columns[source.droppableId];
       const copiedItems = [...column.items];
+
       const [removed] = copiedItems.splice(source.index, 1);
       copiedItems.splice(destination.index, 0, removed);
+
       setColumns({
         ...columns,
         [source.droppableId]: {
@@ -93,44 +110,27 @@ function App() {
     <div className="board-wrapper">
       <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
         {Object.entries(columns).map(([columnId, column]) => (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-            key={columnId}
-          >
+          <div className="columns__item" key={columnId}>
             <h2>{column.name}</h2>
-            <div style={{ margin: 8 }}>
+            <div className="columns__item-content">
               <Droppable droppableId={columnId} key={columnId}>
                 {(providedUpper, snapshotUpper) => (
                   <div
-                    {...providedUpper.droppableProps}
                     ref={providedUpper.innerRef}
-                    style={{
-                      background: snapshotUpper.isDraggingOver ? 'lightblue' : 'lightgrey',
-                      padding: 4,
-                      width: 250,
-                      minHeight: 500,
-                    }}
+                    style={getListStyle(snapshotUpper.isDraggingOver)}
+                    {...providedUpper.droppableProps}
                   >
                     {column.items.map((item, index) => (
                       <Draggable key={item.id} draggableId={item.id} index={index}>
                         {(providedLower, snapshotLower) => (
                           <div
                             ref={providedLower.innerRef}
+                            style={getItemStyle(
+                              snapshotLower.isDragging,
+                              providedLower.draggableProps.style
+                            )}
                             {...providedLower.draggableProps}
                             {...providedLower.dragHandleProps}
-                            style={{
-                              userSelect: 'none',
-                              padding: 16,
-                              margin: '0 0 8px 0',
-                              minHeight: '50px',
-                              backgroundColor: snapshotLower.isDragging ? '#263B4A' : '#456C86',
-                              color: 'white',
-                              ...providedLower.draggableProps.style,
-                            }}
                           >
                             {item.content}
                           </div>
