@@ -4,11 +4,7 @@
     "es6": true,
     "node": true
   },
-  "extends": [
-    "airbnb-typescript",
-    "react-app", 
-    "prettier" 
-  ],
+  "extends": ["airbnb-typescript", "react-app", "prettier"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json",
@@ -41,13 +37,15 @@
     "no-prototype-builtins": [0],
     "react/prop-types": [0],
     "react/destructuring-assignment": [0],
+    "import/prefer-default-export": [0],
+    "import/no-anonymous-default-export": [0],
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {
         "vars": "all",
         "args": "none"
       }
-    ], 
+    ],
     "@typescript-eslint/no-explicit-any": [
       "warn",
       {
@@ -67,13 +65,16 @@
         ]
       }
     ],
-    "@typescript-eslint/comma-dangle": ["error", {
-      "arrays": "only-multiline",
-      "objects": "only-multiline",
-      "imports": "only-multiline",
-      "exports": "only-multiline",
-      "functions": "never"
-    }]
+    "@typescript-eslint/comma-dangle": [
+      "error",
+      {
+        "arrays": "only-multiline",
+        "objects": "only-multiline",
+        "imports": "only-multiline",
+        "exports": "only-multiline",
+        "functions": "never"
+      }
+    ]
   },
   "plugins": ["prettier", "@typescript-eslint"]
 }
