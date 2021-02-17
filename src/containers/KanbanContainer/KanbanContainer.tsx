@@ -1,9 +1,12 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 import KanbanColumn from 'components/KanbanColumn/KanbanColumn';
 import KanbanColumnContent from 'components/KanbanColumnContent/KanbanColumnContent';
+
+import { changeCardDistination } from 'store/kanban/action';
 
 import './KanbanContainer.scss';
 
@@ -37,7 +40,12 @@ const columnsFromBackend = {
 const KanbanContainer = () => {
   const [columns, setColumns] = useState(columnsFromBackend);
 
+  const { columns } = useSelector((state) => state);
+
+  const dispatch = useDispatch();
+
   const onDragEnd = (result: DropResult) => {
+    dispatch(changeCardDistination(result));
     if (!result.destination) return;
     const { source, destination } = result;
 
