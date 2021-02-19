@@ -1,6 +1,10 @@
 import { combineReducers } from 'redux';
 import kanban from './kanban';
 
-export default combineReducers({
+const rootReducer = combineReducers({
   kanban: kanban.reducer,
 });
+
+export default rootReducer;
+
+export type RootState = ReturnType<typeof rootReducer>;
