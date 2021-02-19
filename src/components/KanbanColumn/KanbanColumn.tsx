@@ -1,4 +1,4 @@
-import { PropsKanbanColumn } from 'ts/types/kanban';
+import { PropsKanbanColumn } from './types';
 
 import './KanbanColumn.scss';
 

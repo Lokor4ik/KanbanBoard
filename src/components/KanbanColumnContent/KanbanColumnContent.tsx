@@ -1,6 +1,6 @@
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 
-import { PropsKanbanColumnContent, TypeGetItemStyle } from 'ts/types/kanban';
+import { PropsKanbanColumnContent, TypeGetItemStyle } from './types';
 
 import './KanbanColumnContent.scss';
 
