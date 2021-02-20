@@ -1,7 +1,7 @@
 import { ThunkAction } from 'redux-thunk';
 import { Action } from 'redux';
 
-import { RootState } from 'store/rootReducer';
+import { RootState } from 'store/types';
 import { SET_CARD_DESTINATION, ParamsChangeCardColumn, ParamsChangeCardPosition } from './types';
 
 export const changeCardColumn = ({

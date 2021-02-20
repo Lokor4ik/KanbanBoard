@@ -4,10 +4,10 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import KanbanColumn from 'components/KanbanColumn/KanbanColumn';
 import KanbanColumnContent from 'components/KanbanColumnContent/KanbanColumnContent';
 
+import { RootState } from 'store/types';
 import { changeCardColumn, changeCardPosition } from 'store/kanban/action';
 
 import './KanbanContainer.scss';
-import { RootState } from 'store/rootReducer';
 
 const KanbanContainer = () => {
   const { columns } = useSelector((state: RootState) => state.kanban);
