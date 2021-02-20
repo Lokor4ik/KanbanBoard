@@ -29,7 +29,7 @@ const initialState = {
   },
 };
 
-export default function rootReducer(state = initialState, action: KanbanActionTypes) {
+export default function reducer(state = initialState, action: KanbanActionTypes) {
   switch (action.type) {
     case SET_CARD_DESTINATION: {
       return {
