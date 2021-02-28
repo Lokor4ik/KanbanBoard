@@ -1,15 +1,18 @@
 import dotenv from 'dotenv';
 import express from 'express';
-import cors, { CorsOptions } from 'cors';
+import cors from 'cors';
+
+import connectDB from './config/db';
+import routes from './routes';
 
 dotenv.config();
 
-const { API_PORT } = process.env;
+const { API_PORT, CLIENT_URL } = process.env;
 
 const app = express();
 
-const corsOptions: CorsOptions = {
-  origin: ['http://localhost:3000'],
+const corsOptions = {
+  origin: [CLIENT_URL as string],
   credentials: true,
 };
 
@@ -17,9 +20,9 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/', (_, res) => {
-  res.send('Hello World!');
-});
+routes(app);
+
+connectDB();
 
 if (require.main === module) {
   try {
