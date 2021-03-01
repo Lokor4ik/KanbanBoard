@@ -1,7 +1,4 @@
-import { ThunkAction } from 'redux-thunk';
-import { Action } from 'redux';
-
-import { RootState } from 'store/types';
+import { RootThunkAction } from 'store/types';
 import { SET_CARD_DESTINATION, ParamsChangeCardColumn, ParamsChangeCardPosition } from './types';
 
 export const changeCardColumn = ({
@@ -9,10 +6,7 @@ export const changeCardColumn = ({
   destDroppableId,
   srcIndex,
   destIndex,
-}: ParamsChangeCardColumn): ThunkAction<void, RootState, null, Action<string>> => async (
-  dispatch,
-  getState
-) => {
+}: ParamsChangeCardColumn): RootThunkAction => async (dispatch, getState) => {
   const { columns } = getState().kanban;
 
   const sourceColumn = columns[srcDroppableId];
@@ -45,10 +39,7 @@ export const changeCardPosition = ({
   srcDroppableId,
   srcIndex,
   destIndex,
-}: ParamsChangeCardPosition): ThunkAction<void, RootState, null, Action<string>> => async (
-  dispatch,
-  getState
-) => {
+}: ParamsChangeCardPosition): RootThunkAction => async (dispatch, getState) => {
   const { columns } = getState().kanban;
 
   const column = columns[srcDroppableId];
