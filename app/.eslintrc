@@ -7,8 +7,9 @@
   "extends": ["airbnb-typescript", "react-app", "prettier"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2018,
     "project": "./tsconfig.json",
-    "tsconfigRootDir": "app/",
     "extraFileExtensions": [".tsx, .jsx, .ts"]
   },
   "settings": {
@@ -20,7 +21,7 @@
   },
   "rules": {
     "jsx-quotes": [1, "prefer-double"],
-    "no-console": [1],
+    "no-console": ["error", { "allow": ["warn", "error"] }],
     "semi": [2],
     "no-multi-spaces": [2],
     "no-multiple-empty-lines": "error",
