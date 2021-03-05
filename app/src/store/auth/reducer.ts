@@ -4,6 +4,7 @@ import {
   REGISTER_FAILURE,
   USER_LOADING_REQUEST,
   USER_LOADED_SUCCESS,
+  MAIN_LOADED_SUCCESS,
   AUTH_ERROR,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -29,12 +30,17 @@ export default function reducer(state = initialState, action: AuthActionTypes) {
         ...state,
         loading: true,
       };
+    case MAIN_LOADED_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
     case USER_LOADED_SUCCESS:
       return {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: action.payload,
+        user: action.payload.user,
         error: {},
       };
     case REGISTER_SUCCESS:
@@ -48,6 +54,14 @@ export default function reducer(state = initialState, action: AuthActionTypes) {
         error: {},
       };
     case LOGOUT:
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        loading: false,
+        user: null,
+        error: {},
+      };
     case AUTH_ERROR:
     case REGISTER_FAILURE:
     case LOGIN_FAILURE:
