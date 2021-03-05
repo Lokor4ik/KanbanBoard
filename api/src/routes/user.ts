@@ -1,7 +1,7 @@
 import express from 'express';
 import { check } from 'express-validator';
 
-import userController from 'controllers/user';
+import userController from 'controllers/user/user';
 
 const router = express.Router();
 
@@ -14,6 +14,6 @@ const middlewares = [
 // @route  POST api/users
 // @desc   Register user
 // @access Public
-router.post('/user', middlewares, userController.register);
+router.post('/', middlewares, userController.register);
 
 export default router;
