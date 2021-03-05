@@ -5,7 +5,20 @@ import jwt from 'jsonwebtoken';
 
 import User from 'models/User';
 
+import { ReqUser } from './types';
+
 const { JWT_SECRET } = process.env;
+
+const load = async (req: Request, res: Response) => {
+  try {
+    const { user: usr } = req;
+    const user = await User.findById((usr as ReqUser).id).select('-password');
+
+    res.json(user);
+  } catch (error) {
+    res.status(500).send('Server Error');
+  }
+};
 
 const authenticate = async (req: Request, res: Response) => {
   const errors = validationResult(req);
@@ -50,4 +63,4 @@ const authenticate = async (req: Request, res: Response) => {
   }
 };
 
-export default { authenticate };
+export default { load, authenticate };
