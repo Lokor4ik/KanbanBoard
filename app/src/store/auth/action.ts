@@ -37,6 +37,7 @@ export const loadUser = (): RootThunkAction => async (dispatch) => {
 
       dispatch({
         type: AUTH_ERROR,
+        payload: { error },
       });
     }
   } else {
@@ -68,19 +69,11 @@ export const registerUser = ({
       payload: { token, user },
     });
   } catch (error) {
-    /* const { errors } = error.response.data;
-
-    if (errors) {
-      errors.forEach((element) => {
-        message.error(element.msg);
-      });
-    } */
-
     localStorage.removeItem('token');
 
     dispatch({
       type: REGISTER_FAILURE,
-      payload: { msg: error.response.statusText, status: error.response.status },
+      payload: { error },
     });
   }
 };
@@ -96,7 +89,8 @@ export const loginUser = ({ email, password }: ParamsLoginUser): RootThunkAction
       'x-auth-token': localStorage.token,
     };
     const body = JSON.stringify({ email, password });
-    const { token, user } = await request('/api/user', 'GET', body, headers);
+
+    const { token, user } = await request('/api/auth', 'POST', body, headers);
 
     localStorage.setItem('token', token);
 
@@ -105,19 +99,11 @@ export const loginUser = ({ email, password }: ParamsLoginUser): RootThunkAction
       payload: { token, user },
     });
   } catch (error) {
-    /*  const { errors } = error.response.data;
-
-    if (errors) {
-      errors.forEach((element) => {
-        message.error(element.msg);
-      });
-    } */
-
     localStorage.removeItem('token');
 
     dispatch({
       type: LOGIN_FAILURE,
-      payload: { msg: error.response.statusText, status: error.response.status },
+      payload: { error },
     });
   }
 };
