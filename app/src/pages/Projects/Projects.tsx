@@ -1,5 +1,5 @@
 import MainLayout from 'layouts/MainLayout/MainLayout';
-import ProjectsContainer from 'containers/ProjectsContainer/ProjectsContainer';
+import ProjectsContainer from 'containers/Projects/Projects';
 
 const Projects = () => (
   <MainLayout sectionName="projects">
