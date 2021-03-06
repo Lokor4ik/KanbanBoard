@@ -32,4 +32,5 @@ export interface AuthPayload {
     email: string;
     date: Date;
   };
+  error: Record<string, string>;
 }
