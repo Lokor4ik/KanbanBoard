@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Loader from 'shared/Loader/Loader';
@@ -13,7 +12,6 @@ import './App.scss';
 
 const App = () => {
   const { isAuthenticated, loading } = useSelector((state: RootState) => state.auth);
-
   const dispatch = useDispatch();
   const routes = useRoutes(isAuthenticated);
 
@@ -27,11 +25,7 @@ const App = () => {
     return <Loader />;
   }
 
-  return (
-    <Router>
-      <main className="main">{routes}</main>
-    </Router>
-  );
+  return <main className="main">{routes}</main>;
 };
 
 export default App;
