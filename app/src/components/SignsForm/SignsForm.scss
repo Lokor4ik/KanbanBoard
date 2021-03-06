@@ -6,6 +6,9 @@
   justify-content: center;
 
   form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     min-width: 536px;
     max-width: 536px;
   }

@@ -28,6 +28,8 @@ const SignsForm: React.FC<SignsProps> = ({
   handleClose,
   errorMessages,
   children,
+  nameField,
+  haveAnAccount,
 }) => {
   const classes = useStyles();
 
@@ -40,8 +42,6 @@ const SignsForm: React.FC<SignsProps> = ({
       </Snackbar>
     ));
 
-  console.log(children);
-
   return (
     <div className="signs__wrapper">
       <Typography variant="h4" className={classes.h4}>
@@ -49,6 +49,7 @@ const SignsForm: React.FC<SignsProps> = ({
       </Typography>
 
       <form onSubmit={formik.handleSubmit}>
+        {nameField}
         <TextField
           fullWidth
           id="email"
@@ -70,12 +71,12 @@ const SignsForm: React.FC<SignsProps> = ({
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
         />
-
         {children}
-
         <ColorButton fullWidth type="submit" className={classes.submit}>
           Submit
         </ColorButton>
+
+        {haveAnAccount}
       </form>
 
       {arrayErrors()}
