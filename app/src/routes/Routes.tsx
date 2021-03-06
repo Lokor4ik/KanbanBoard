@@ -4,6 +4,8 @@ import Projects from 'pages/Projects/Projects';
 import Kanban from 'pages/Kanban/Kanban';
 import NotFound from 'pages/NotFound/NotFound';
 import Landing from 'pages/Landing/Landing';
+import SignUp from 'pages/SignUp/SignUp';
+import SignIn from 'pages/SignIn/SignIn';
 
 export const useRoutes = (isAuthenticated: boolean) => {
   if (isAuthenticated) {
@@ -19,6 +21,8 @@ export const useRoutes = (isAuthenticated: boolean) => {
   return (
     <Switch>
       <Route exact path="/" component={Landing} />
+      <Route exact path="/signup" component={SignUp} />
+      <Route exact path="/signin" component={SignIn} />
       <Route path="*" component={NotFound} />
     </Switch>
   );
