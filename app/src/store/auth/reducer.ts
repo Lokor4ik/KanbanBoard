@@ -18,7 +18,7 @@ const initialState = {
   isAuthenticated: false,
   loading: true,
   user: null,
-  error: {},
+  errors: {},
 };
 
 export default function reducer(state = initialState, action: AuthActionTypes) {
@@ -41,7 +41,7 @@ export default function reducer(state = initialState, action: AuthActionTypes) {
         isAuthenticated: true,
         loading: false,
         user: action.payload.user,
-        error: {},
+        errors: {},
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
@@ -51,7 +51,7 @@ export default function reducer(state = initialState, action: AuthActionTypes) {
         isAuthenticated: true,
         loading: false,
         user: action.payload.user,
-        error: {},
+        errors: {},
       };
     case LOGOUT:
       return {
@@ -60,7 +60,7 @@ export default function reducer(state = initialState, action: AuthActionTypes) {
         isAuthenticated: false,
         loading: false,
         user: null,
-        error: {},
+        errors: {},
       };
     case AUTH_ERROR:
     case REGISTER_FAILURE:
@@ -71,7 +71,7 @@ export default function reducer(state = initialState, action: AuthActionTypes) {
         isAuthenticated: false,
         loading: false,
         user: null,
-        error: action.payload,
+        errors: action.payload.error,
       };
     default:
       return state;
