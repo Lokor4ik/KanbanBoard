@@ -60,7 +60,7 @@ export const registerUser = ({
       'x-auth-token': localStorage.token,
     };
     const body = JSON.stringify({ name, email, password });
-    const { token, user } = await request('/api/user', 'GET', body, headers);
+    const { token, user } = await request('/api/user', 'POST', body, headers);
 
     localStorage.setItem('token', token);
 
