@@ -13,4 +13,6 @@ export type SignsProps = {
     msg: string;
     severity: Color;
   }>;
+  nameField?: ReactNode;
+  haveAnAccount: ReactNode;
 };
