@@ -7,7 +7,7 @@ import KanbanColumnContent from 'components/KanbanColumnContent/KanbanColumnCont
 import { RootState } from 'store/types';
 import { changeCardColumn, changeCardPosition } from 'store/kanban/action';
 
-import './KanbanContainer.scss';
+import './Kanban.scss';
 
 const KanbanContainer = () => {
   const { columns } = useSelector((state: RootState) => state.kanban);
