@@ -7,6 +7,8 @@ import * as yup from 'yup';
 import TextField from '@material-ui/core/TextField';
 
 import SignsForm from 'components/SignsForm/SignsForm';
+import HaveAnAccount from 'components/HaveAnAccount/HaveAnAccount';
+import NameField from 'components/NameField/NameField';
 
 import { RootState } from 'store/types';
 import { registerUser } from 'store/auth/action';
@@ -38,6 +40,7 @@ const SignUpContainer = () => {
   };
 
   const validationSchema = yup.object({
+    name: yup.string().required('Name is required'),
     email: yup.string().email('Enter a valid email').required('Email is required'),
     password: yup
       .string()
@@ -70,6 +73,8 @@ const SignUpContainer = () => {
       open={open}
       handleClose={handleClose}
       errorMessages={errorMessages}
+      haveAnAccount={<HaveAnAccount title="Already have an account? Log In" path="/login" />}
+      nameField={<NameField formik={formik} />}
     >
       <TextField
         fullWidth

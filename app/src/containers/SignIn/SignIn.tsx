@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 
 import SignsForm from 'components/SignsForm/SignsForm';
+import HaveAnAccount from 'components/HaveAnAccount/HaveAnAccount';
 
 import { RootState } from 'store/types';
 import { loginUser } from 'store/auth/action';
@@ -59,6 +60,7 @@ const SignInContainer = () => {
       open={open}
       handleClose={handleClose}
       errorMessages={errorMessages}
+      haveAnAccount={<HaveAnAccount title="Sign up for an account" path="/signup" />}
     />
   );
 };
