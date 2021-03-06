@@ -1,21 +1,24 @@
 import { useState, useEffect, SyntheticEvent } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-// import { useDispatch } from 'react-redux';
 
 import TextField from '@material-ui/core/TextField';
 
 import SignsForm from 'components/SignsForm/SignsForm';
 
 import { RootState } from 'store/types';
+import { registerUser } from 'store/auth/action';
+import { ParamsRegisterUser } from 'store/auth/types';
 
 const SignUpContainer = () => {
   const [open, setOpen] = useState(false);
   const [errorMessages, setErrorMessages] = useState([]);
 
   const { errors } = useSelector((state: RootState) => state.auth);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (Object.keys(errors).length) {
@@ -29,11 +32,10 @@ const SignUpContainer = () => {
       setOpen(false);
     }
   };
-  // const dispatch = useDispatch();
 
-  // const handleSumbit = ({ email, password }: ParamsLoginUser) => {
-  //   dispatch(loginUser({ email, password }));
-  // };
+  const handleSumbit = ({ name, email, password }: ParamsRegisterUser) => {
+    dispatch(registerUser({ name, email, password }));
+  };
 
   const validationSchema = yup.object({
     email: yup.string().email('Enter a valid email').required('Email is required'),
@@ -52,14 +54,13 @@ const SignUpContainer = () => {
 
   const formik = useFormik({
     initialValues: {
+      name: '',
       email: '',
       password: '',
       confirmPassword: '',
     },
     validationSchema,
-    onSubmit: (values) => {
-      console.warn(values);
-    },
+    onSubmit: handleSumbit,
   });
 
   return (
