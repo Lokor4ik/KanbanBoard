@@ -11,7 +11,12 @@ const register = async (req: Request, res: Response) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    const newErrors = errors.array().map((errItem) => ({
+      ...errItem,
+      severity: 'error',
+    }));
+
+    return res.status(400).json({ errors: newErrors });
   }
 
   const { name, email, password } = req.body;
