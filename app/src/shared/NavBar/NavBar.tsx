@@ -1,10 +1,11 @@
-/* import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+
 import { logoutUser } from 'store/auth/action';
 
-import './Navbar.scss';
+import { NavBarProps } from './types';
 
-const Navbar = ({ isAuthenticated }) => {
+const NavBar: React.FC<NavBarProps> = ({ isAuthenticated }) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -21,8 +22,7 @@ const Navbar = ({ isAuthenticated }) => {
         </li>
 
         <li>
-          <button className="navbar-logout" onClick={logout}>
-            <LogoutOutlined className="user-outlined" />
+          <button type="button" className="navbar-logout" onClick={logout}>
             Logout
           </button>
         </li>
@@ -33,15 +33,11 @@ const Navbar = ({ isAuthenticated }) => {
   return (
     <header className="header bg-dark">
       <h1>
-        <Link to={isAuthenticated ? '/dashboard' : '/'}>
-          <TeamOutlined />
-          DevUnite
-        </Link>
+        <Link to={isAuthenticated ? '/dashboard' : '/'}>DevUnite</Link>
       </h1>
       {navLinks}
     </header>
   );
 };
 
-export default Navbar;
- */
+export default NavBar;
