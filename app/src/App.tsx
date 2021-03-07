@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Loader from 'shared/Loader/Loader';
+import NavBar from 'shared/NavBar/NavBar';
 
 import { RootState } from 'store/types';
 import { loadUser } from 'store/auth/action';
@@ -25,7 +26,13 @@ const App = () => {
     return <Loader />;
   }
 
-  return <main className="main">{routes}</main>;
+  return (
+    <main className="main">
+      <NavBar isAuthenticated={isAuthenticated} />
+
+      {routes}
+    </main>
+  );
 };
 
 export default App;
