@@ -12,7 +12,7 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
-  /*   LOGOUT, */
+  LOGOUT,
   ParamsRegisterUser,
   ParamsLoginUser,
 } from './types';
@@ -108,10 +108,8 @@ export const loginUser = ({ email, password }: ParamsLoginUser): RootThunkAction
   }
 };
 
-/* export const logoutUser = () => async (dispatch) => {
+export const logoutUser = (): RootThunkAction => async (dispatch) => {
   localStorage.removeItem('token');
 
-  dispatch({ type: CLEAR_PROFILE });
   dispatch({ type: LOGOUT });
 };
- */
