@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a kanban application with authorization and a database of users and projects.
 
 ## Available Scripts
 
