@@ -10,6 +10,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT,
+  CLEAR_ERRORS,
   AuthActionTypes,
 } from './types';
 
@@ -18,7 +19,7 @@ const initialState = {
   isAuthenticated: false,
   loading: true,
   user: null,
-  errors: {},
+  errors: [],
 };
 
 export default function reducer(state = initialState, action: AuthActionTypes) {
@@ -41,7 +42,7 @@ export default function reducer(state = initialState, action: AuthActionTypes) {
         isAuthenticated: true,
         loading: false,
         user: action.payload.user,
-        errors: {},
+        errors: [],
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
@@ -51,7 +52,7 @@ export default function reducer(state = initialState, action: AuthActionTypes) {
         isAuthenticated: true,
         loading: false,
         user: action.payload.user,
-        errors: {},
+        errors: [],
       };
     case LOGOUT:
       return {
@@ -60,7 +61,7 @@ export default function reducer(state = initialState, action: AuthActionTypes) {
         isAuthenticated: false,
         loading: false,
         user: null,
-        errors: {},
+        errors: [],
       };
     case AUTH_ERROR:
     case REGISTER_FAILURE:
@@ -72,6 +73,11 @@ export default function reducer(state = initialState, action: AuthActionTypes) {
         loading: false,
         user: null,
         errors: action.payload.error,
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        errors: [],
       };
     default:
       return state;

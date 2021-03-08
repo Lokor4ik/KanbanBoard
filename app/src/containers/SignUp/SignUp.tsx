@@ -16,7 +16,6 @@ import { ParamsRegisterUser } from 'store/auth/types';
 
 const SignUpContainer = () => {
   const [open, setOpen] = useState(false);
-  const [errorMessages, setErrorMessages] = useState([]);
 
   const { errors } = useSelector((state: RootState) => state.auth);
 
@@ -24,7 +23,6 @@ const SignUpContainer = () => {
 
   useEffect(() => {
     if (Object.keys(errors).length) {
-      setErrorMessages(errors);
       setOpen(true);
     }
   }, [errors]);
@@ -72,8 +70,8 @@ const SignUpContainer = () => {
       title="Sign Up"
       open={open}
       handleClose={handleClose}
-      errorMessages={errorMessages}
-      haveAnAccount={<HaveAnAccount title="Already have an account? Log In" path="/login" />}
+      errorMessages={errors}
+      haveAnAccount={<HaveAnAccount title="Already have an account? Log In" path="/signin" />}
       nameField={<NameField formik={formik} />}
     >
       <TextField

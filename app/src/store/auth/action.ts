@@ -13,6 +13,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT,
+  CLEAR_ERRORS,
   ParamsRegisterUser,
   ParamsLoginUser,
 } from './types';
@@ -112,4 +113,8 @@ export const logoutUser = (): RootThunkAction => async (dispatch) => {
   localStorage.removeItem('token');
 
   dispatch({ type: LOGOUT });
+};
+
+export const clearErrors = (): RootThunkAction => async (dispatch) => {
+  dispatch({ type: CLEAR_ERRORS });
 };

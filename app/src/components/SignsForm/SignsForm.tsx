@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import TextField from '@material-ui/core/TextField';
@@ -7,6 +8,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import ColorButton from 'shared/Button/Button';
 import MessageAlert from 'shared/MessageAlert/MessageAlert';
+
+import { clearErrors } from 'store/auth/action';
 
 import { SignsProps } from './types';
 
@@ -32,15 +35,22 @@ const SignsForm: React.FC<SignsProps> = ({
   haveAnAccount,
 }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const arrayErrors = () =>
     errorMessages.map(({ msg, severity }) => (
-      <Snackbar key={uuidv4()} open={open} autoHideDuration={6000} onClose={handleClose}>
+      <Snackbar key={uuidv4()} open={open} autoHideDuration={2000} onClose={handleClose}>
         <MessageAlert onClose={handleClose} severity={severity}>
           {msg}
         </MessageAlert>
       </Snackbar>
     ));
+
+  const handleClickSubmit = () => {
+    if (errorMessages.length) {
+      dispatch(clearErrors());
+    }
+  };
 
   return (
     <div className="signs__wrapper">
@@ -71,8 +81,10 @@ const SignsForm: React.FC<SignsProps> = ({
           error={formik.touched.password && Boolean(formik.errors.password)}
           helperText={formik.touched.password && formik.errors.password}
         />
+
         {children}
-        <ColorButton fullWidth type="submit" className={classes.submit}>
+
+        <ColorButton onClick={handleClickSubmit} fullWidth type="submit" className={classes.submit}>
           Submit
         </ColorButton>
 

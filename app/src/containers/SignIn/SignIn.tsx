@@ -13,7 +13,6 @@ import { ParamsLoginUser } from 'store/auth/types';
 
 const SignInContainer = () => {
   const [open, setOpen] = useState(false);
-  const [errorMessages, setErrorMessages] = useState([]);
 
   const { errors } = useSelector((state: RootState) => state.auth);
 
@@ -21,7 +20,6 @@ const SignInContainer = () => {
 
   useEffect(() => {
     if (Object.keys(errors).length) {
-      setErrorMessages(errors);
       setOpen(true);
     }
   }, [errors]);
@@ -59,7 +57,7 @@ const SignInContainer = () => {
       title="Sign In"
       open={open}
       handleClose={handleClose}
-      errorMessages={errorMessages}
+      errorMessages={errors}
       haveAnAccount={<HaveAnAccount title="Sign up for an account" path="/signup" />}
     />
   );

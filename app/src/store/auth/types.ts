@@ -9,6 +9,7 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const MAIN_LOADED_SUCCESS = 'MAIN_LOADED_SUCCESS';
 export const LOGOUT = 'LOGOUT';
+export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
 export type ParamsRegisterUser = ParamsLoginUser & {
   name: string;
