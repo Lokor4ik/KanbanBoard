@@ -7,7 +7,7 @@ import Landing from 'pages/Landing/Landing';
 import SignUp from 'pages/SignUp/SignUp';
 import SignIn from 'pages/SignIn/SignIn';
 
-const pathsFromAuth = ['/login', '/signup', '/'];
+const pathsFromAuth = ['/signin', '/signup', '/'];
 
 export const useRoutes = (isAuthenticated: boolean) => {
   const location = useLocation();
@@ -27,8 +27,8 @@ export const useRoutes = (isAuthenticated: boolean) => {
     <Switch>
       <Route exact path="/" component={Landing} />
       <Route exact path="/signup" component={SignUp} />
-      <Route exact path="/login" component={SignIn} />
-      <Redirect from="/projects*" to="/login" />
+      <Route exact path="/signin" component={SignIn} />
+      <Redirect from="/projects*" to="/signin" />
       <Route component={NotFound} />
     </Switch>
   );
