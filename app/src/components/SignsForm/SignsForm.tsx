@@ -1,13 +1,11 @@
 import { useDispatch } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
 
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import Snackbar from '@material-ui/core/Snackbar';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 import ColorButton from 'shared/Button/Button';
-import MessageAlert from 'shared/MessageAlert/MessageAlert';
 
 import { clearErrors } from 'store/auth/action';
 
@@ -27,8 +25,6 @@ const useStyles = makeStyles({
 const SignsForm: React.FC<SignsProps> = ({
   formik,
   title,
-  open,
-  handleClose,
   errorMessages,
   children,
   nameField,
@@ -36,15 +32,6 @@ const SignsForm: React.FC<SignsProps> = ({
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const arrayErrors = () =>
-    errorMessages.map(({ msg, severity }) => (
-      <Snackbar key={uuidv4()} open={open} autoHideDuration={2000} onClose={handleClose}>
-        <MessageAlert onClose={handleClose} severity={severity}>
-          {msg}
-        </MessageAlert>
-      </Snackbar>
-    ));
 
   const handleClickSubmit = () => {
     if (errorMessages.length) {
@@ -90,8 +77,6 @@ const SignsForm: React.FC<SignsProps> = ({
 
         {haveAnAccount}
       </form>
-
-      {arrayErrors()}
     </div>
   );
 };
