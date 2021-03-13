@@ -7,8 +7,6 @@ export type SignsProps = {
   formik: FormikValues;
   title: string;
   children?: ReactNode;
-  open: boolean;
-  handleClose: (event: React.SyntheticEvent, reason?: string) => void;
   errorMessages: Array<{
     msg: string;
     severity: Color;
