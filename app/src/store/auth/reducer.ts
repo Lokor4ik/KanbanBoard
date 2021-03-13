@@ -12,9 +12,10 @@ import {
   LOGOUT,
   CLEAR_ERRORS,
   AuthActionTypes,
+  AuthInitialState,
 } from './types';
 
-const initialState = {
+const initialState: AuthInitialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: false,
   loading: true,
@@ -72,7 +73,7 @@ export default function reducer(state = initialState, action: AuthActionTypes) {
         isAuthenticated: false,
         loading: false,
         user: null,
-        errors: action.payload.error,
+        errors: action.payload.errors,
       };
     case CLEAR_ERRORS:
       return {
