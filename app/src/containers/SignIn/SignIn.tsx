@@ -1,34 +1,50 @@
-import { useState, useEffect, SyntheticEvent } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
+import { useSnackbar, TransitionCloseHandler } from 'notistack';
+
 import SignsForm from 'components/SignsForm/SignsForm';
 import HaveAnAccount from 'components/HaveAnAccount/HaveAnAccount';
 
 import { RootState } from 'store/types';
-import { loginUser } from 'store/auth/action';
+import { clearErrors, loginUser } from 'store/auth/action';
 import { ParamsLoginUser } from 'store/auth/types';
 
 const SignInContainer = () => {
-  const [open, setOpen] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const { errors } = useSelector((state: RootState) => state.auth);
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (Object.keys(errors).length) {
-      setOpen(true);
-    }
-  }, [errors]);
+  useEffect(
+    () => () => {
+      if (errors.length) {
+        dispatch(clearErrors());
+      }
+    },
+    [dispatch, errors.length]
+  );
 
-  const handleClose = (_: SyntheticEvent, reason?: string) => {
-    if (reason !== 'clickaway') {
-      setOpen(false);
+  const handleClose: TransitionCloseHandler = useCallback(
+    (_, reason) => {
+      if (reason !== 'clickaway' && errors.length) {
+        dispatch(clearErrors());
+      }
+    },
+    [dispatch, errors.length]
+  );
+
+  useEffect(() => {
+    if (errors.length) {
+      errors.map(({ msg, severity }) =>
+        enqueueSnackbar(msg, { variant: severity, onClose: handleClose })
+      );
     }
-  };
+  }, [enqueueSnackbar, errors, handleClose]);
 
   const handleSumbit = ({ email, password }: ParamsLoginUser) => {
     dispatch(loginUser({ email, password }));
@@ -55,8 +71,6 @@ const SignInContainer = () => {
     <SignsForm
       formik={formik}
       title="Sign In"
-      open={open}
-      handleClose={handleClose}
       errorMessages={errors}
       haveAnAccount={<HaveAnAccount title="Sign up for an account" path="/signup" />}
     />

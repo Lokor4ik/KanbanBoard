@@ -1,4 +1,4 @@
-import { useState, useEffect, SyntheticEvent } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { useFormik } from 'formik';
@@ -6,32 +6,48 @@ import * as yup from 'yup';
 
 import TextField from '@material-ui/core/TextField';
 
+import { useSnackbar, TransitionCloseHandler } from 'notistack';
+
 import SignsForm from 'components/SignsForm/SignsForm';
 import HaveAnAccount from 'components/HaveAnAccount/HaveAnAccount';
 import NameField from 'components/NameField/NameField';
 
 import { RootState } from 'store/types';
-import { registerUser } from 'store/auth/action';
+import { clearErrors, registerUser } from 'store/auth/action';
 import { ParamsRegisterUser } from 'store/auth/types';
 
 const SignUpContainer = () => {
-  const [open, setOpen] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const { errors } = useSelector((state: RootState) => state.auth);
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (Object.keys(errors).length) {
-      setOpen(true);
-    }
-  }, [errors]);
+  useEffect(
+    () => () => {
+      if (errors.length) {
+        dispatch(clearErrors());
+      }
+    },
+    [dispatch, errors.length]
+  );
 
-  const handleClose = (_: SyntheticEvent, reason?: string) => {
-    if (reason !== 'clickaway') {
-      setOpen(false);
+  const handleClose: TransitionCloseHandler = useCallback(
+    (_, reason) => {
+      if (reason !== 'clickaway') {
+        dispatch(clearErrors());
+      }
+    },
+    [dispatch]
+  );
+
+  useEffect(() => {
+    if (errors.length) {
+      errors.map(({ msg, severity }) =>
+        enqueueSnackbar(msg, { variant: severity, onClose: handleClose })
+      );
     }
-  };
+  }, [enqueueSnackbar, errors, handleClose]);
 
   const handleSumbit = ({ name, email, password }: ParamsRegisterUser) => {
     dispatch(registerUser({ name, email, password }));
@@ -68,8 +84,6 @@ const SignUpContainer = () => {
     <SignsForm
       formik={formik}
       title="Sign Up"
-      open={open}
-      handleClose={handleClose}
       errorMessages={errors}
       haveAnAccount={<HaveAnAccount title="Already have an account? Log In" path="/signin" />}
       nameField={<NameField formik={formik} />}
