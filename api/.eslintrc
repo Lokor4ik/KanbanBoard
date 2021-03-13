@@ -11,7 +11,7 @@
     "project": "./tsconfig.json",
     "extraFileExtensions": [".ts"]
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
     "no-console": ["error", { "allow": ["warn", "error"] }],
     "import/no-unresolved": [0],
