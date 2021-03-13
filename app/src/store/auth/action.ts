@@ -1,4 +1,5 @@
 import request from 'services/axios';
+import handleErrors from 'utils/actionErrors';
 
 import { RootThunkAction } from 'store/types';
 import {
@@ -36,9 +37,11 @@ export const loadUser = (): RootThunkAction => async (dispatch) => {
     } catch (error) {
       localStorage.removeItem('token');
 
+      const errors = handleErrors(error);
+
       dispatch({
         type: AUTH_ERROR,
-        payload: { error },
+        payload: { errors },
       });
     }
   } else {
@@ -72,9 +75,11 @@ export const registerUser = ({
   } catch (error) {
     localStorage.removeItem('token');
 
+    const errors = handleErrors(error);
+
     dispatch({
       type: REGISTER_FAILURE,
-      payload: { error },
+      payload: { errors },
     });
   }
 };
@@ -102,9 +107,11 @@ export const loginUser = ({ email, password }: ParamsLoginUser): RootThunkAction
   } catch (error) {
     localStorage.removeItem('token');
 
+    const errors = handleErrors(error);
+
     dispatch({
       type: LOGIN_FAILURE,
-      payload: { error },
+      payload: { errors },
     });
   }
 };
