@@ -1,10 +1,10 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import { useSnackbar, TransitionCloseHandler } from 'notistack';
+import { useSnackbar } from 'notistack';
 
 import SignsForm from 'components/SignsForm/SignsForm';
 import HaveAnAccount from 'components/HaveAnAccount/HaveAnAccount';
@@ -20,31 +20,17 @@ const SignInContainer = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(
-    () => () => {
-      if (errors.length) {
-        dispatch(clearErrors());
-      }
-    },
-    [dispatch, errors.length]
-  );
-
-  const handleClose: TransitionCloseHandler = useCallback(
-    (_, reason) => {
-      if (reason !== 'clickaway' && errors.length) {
-        dispatch(clearErrors());
-      }
-    },
-    [dispatch, errors.length]
-  );
-
   useEffect(() => {
     if (errors.length) {
       errors.map(({ msg, severity }) =>
-        enqueueSnackbar(msg, { variant: severity, onClose: handleClose })
+        enqueueSnackbar(msg, {
+          variant: severity,
+        })
       );
+
+      dispatch(clearErrors());
     }
-  }, [enqueueSnackbar, errors, handleClose]);
+  }, [dispatch, enqueueSnackbar, errors]);
 
   const handleSumbit = ({ email, password }: ParamsLoginUser) => {
     dispatch(loginUser({ email, password }));
