@@ -1,11 +1,8 @@
 import { Color } from '@material-ui/lab/Alert';
 
-const arr = [
-  { msg: 'Something went wrong', severity: 'error' },
-  { msg: 'Something went wrong', severity: 'error' },
-  { msg: 'Something went wrong', severity: 'error' },
-];
+const defaultError = [{ msg: 'Something went wrong', severity: 'error' }];
+
 const handleErrors = (error: Array<{ msg: string; severity: Color }> | Error) =>
-  error instanceof Array ? error : arr;
+  error instanceof Array ? error : defaultError;
 
 export default handleErrors;
