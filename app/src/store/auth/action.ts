@@ -28,11 +28,11 @@ export const loadUser = (): RootThunkAction => async (dispatch) => {
         'Content-Type': 'application/json',
         'x-auth-token': localStorage.token,
       };
-      const { data } = await await request('/api/auth', 'GET', null, headers);
+      const user = await await request('/api/auth', 'GET', null, headers);
 
       dispatch({
         type: USER_LOADED_SUCCESS,
-        payload: { user: data },
+        payload: { user },
       });
     } catch (error) {
       localStorage.removeItem('token');
@@ -95,7 +95,6 @@ export const loginUser = ({ email, password }: ParamsLoginUser): RootThunkAction
       'x-auth-token': localStorage.token,
     };
     const body = JSON.stringify({ email, password });
-
     const { token, user } = await request('/api/auth', 'POST', body, headers);
 
     localStorage.setItem('token', token);
