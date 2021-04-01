@@ -22,6 +22,9 @@ const useStyles = makeStyles(() =>
       padding: 5,
       minWidth: 'auto',
     },
+    popper: {
+      zIndex: 100,
+    },
   })
 );
 
@@ -84,7 +87,14 @@ const UserMenu = () => {
       >
         <Avatar name={user?.name} size="35" round />
       </Button>
-      <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+      <Popper
+        className={classes.popper}
+        open={open}
+        anchorEl={anchorRef.current}
+        role={undefined}
+        transition
+        disablePortal
+      >
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}
