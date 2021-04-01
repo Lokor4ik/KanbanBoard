@@ -1,5 +1,5 @@
 import request from 'services/axios';
-import headers from 'assets/variables/fetchHeaders';
+import getFetchHeaders from 'utils/getFetchHeaders';
 import handleErrors from 'utils/actionErrors';
 
 import { RootThunkAction } from 'store/types';
@@ -12,6 +12,7 @@ export const getProjects = (): RootThunkAction => async (dispatch) => {
       type: PROJECT_LOADING_REQUEST,
     });
 
+    const headers = getFetchHeaders();
     const rows = await request('/api/project', 'GET', null, headers);
 
     dispatch({

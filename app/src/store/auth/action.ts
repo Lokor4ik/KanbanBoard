@@ -1,6 +1,6 @@
 import request from 'services/axios';
 import handleErrors from 'utils/actionErrors';
-import headers from 'assets/variables/fetchHeaders';
+import getFetchHeaders from 'utils/getFetchHeaders';
 
 import { RootThunkAction } from 'store/types';
 import {
@@ -25,6 +25,7 @@ export const loadUser = (): RootThunkAction => async (dispatch) => {
     try {
       dispatch({ type: USER_LOADING_REQUEST });
 
+      const headers = getFetchHeaders();
       const user = await await request('/api/auth', 'GET', null, headers);
 
       dispatch({
@@ -56,6 +57,7 @@ export const registerUser = ({
   try {
     dispatch({ type: REGISTER_REQUEST });
 
+    const headers = getFetchHeaders();
     const body = JSON.stringify({ name, email, password });
     const { token, user } = await request('/api/user', 'POST', body, headers);
 
@@ -83,6 +85,7 @@ export const loginUser = ({ email, password }: ParamsLoginUser): RootThunkAction
   try {
     dispatch({ type: LOGIN_REQUEST });
 
+    const headers = getFetchHeaders();
     const body = JSON.stringify({ email, password });
     const { token, user } = await request('/api/auth', 'POST', body, headers);
 
