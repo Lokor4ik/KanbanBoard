@@ -2,8 +2,8 @@ import MainLayout from 'layouts/MainLayout/MainLayout';
 import KanbanContainer from 'containers/Kanban/Kanban';
 
 const Kanban = () => (
-  <MainLayout sectionName="projects">
-    <h1>Kanban</h1>
+  <MainLayout sectionName="kanban">
+    <h1>Project</h1>
     <KanbanContainer />
   </MainLayout>
 );
