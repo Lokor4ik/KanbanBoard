@@ -1,8 +1,5 @@
+import { ProjectsRows } from 'store/projects/types';
+
 export type ProjectsTableProps = {
-  rows: Array<{
-    id: string;
-    name: string;
-    key: string;
-    lead: string;
-  }>;
+  rows: ProjectsRows;
 };
