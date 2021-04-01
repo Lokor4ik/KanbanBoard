@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import { useSnackbar } from 'notistack';
 
 import SignsForm from 'components/SignsForm/SignsForm';
-import HaveAnAccount from 'components/HaveAnAccount/HaveAnAccount';
+import CustomLink from 'shared/Link/Link';
 import NameField from 'components/NameField/NameField';
 
 import { RootState } from 'store/types';
@@ -71,7 +71,13 @@ const SignUpContainer = () => {
       formik={formik}
       title="Sign Up"
       errorMessages={errors}
-      haveAnAccount={<HaveAnAccount title="Already have an account? Log In" path="/signin" />}
+      haveAnAccount={
+        <CustomLink
+          title="Already have an account? Log In"
+          path="/signin"
+          className="link--purple"
+        />
+      }
       nameField={<NameField formik={formik} />}
     >
       <TextField

@@ -7,7 +7,7 @@ import * as yup from 'yup';
 import { useSnackbar } from 'notistack';
 
 import SignsForm from 'components/SignsForm/SignsForm';
-import HaveAnAccount from 'components/HaveAnAccount/HaveAnAccount';
+import CustomLink from 'shared/Link/Link';
 
 import { RootState } from 'store/types';
 import { clearErrors, loginUser } from 'store/auth/action';
@@ -58,7 +58,9 @@ const SignInContainer = () => {
       formik={formik}
       title="Sign In"
       errorMessages={errors}
-      haveAnAccount={<HaveAnAccount title="Sign up for an account" path="/signup" />}
+      haveAnAccount={
+        <CustomLink title="Sign up for an account" path="/signup" className="link--purple" />
+      }
     />
   );
 };
