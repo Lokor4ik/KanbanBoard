@@ -17,3 +17,9 @@ export type ProjectsActionTypes = {
   type: string;
   payload: ProjectInitialState;
 };
+
+export type ParamsNewProject = {
+  name: string;
+  key: string;
+  lead: string;
+};
