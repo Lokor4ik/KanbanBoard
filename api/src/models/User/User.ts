@@ -1,4 +1,6 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
+
+import { UserInterface } from './types';
 
 const UserSchema = new Schema({
   name: {
@@ -19,13 +21,6 @@ const UserSchema = new Schema({
     default: Date.now,
   },
 });
-
-export interface UserInterface extends Document {
-  name: string;
-  email: string;
-  password: string;
-  createdAt: Date;
-}
 
 export const User = mongoose.model<UserInterface>('user', UserSchema);
 
