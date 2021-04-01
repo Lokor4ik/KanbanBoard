@@ -1,6 +1,10 @@
 const request = async (url: string, method = 'GET', body: null | string, headers = {}) => {
   try {
-    const response = await fetch(`http://localhost:9090${url}`, { method, headers, body });
+    const response = await fetch(`${process.env.REACT_APP_API_URL}${url}`, {
+      method,
+      headers,
+      body,
+    });
     const data = await response.json();
 
     if (!response.ok) {
