@@ -24,7 +24,11 @@ const Projects = () => {
             Projects
           </Typography>
 
-          <CustomLink title="Create a new project" path="/new-project" className="link--blue" />
+          <CustomLink
+            title="Create a new project"
+            path="/new-project"
+            className="link--blue link--no-margins"
+          />
         </div>
         <ProjectsContainer />
       </div>
