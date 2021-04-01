@@ -21,10 +21,14 @@ const NavBar: React.FC<NavBarProps> = ({ isAuthenticated }) => {
       {!isAuthenticated && location.pathname === '/' && (
         <>
           <li>
-            <Link to="/signin">Sign In</Link>
+            <Link to="/signin" className="signin">
+              Sign In
+            </Link>
           </li>
           <li>
-            <Link to="/signup">Sign Up</Link>
+            <Link to="/signup" className="signup">
+              Sign Up
+            </Link>
           </li>
         </>
       )}
