@@ -16,15 +16,27 @@ To start server
 
 ## Notes
 
-Also need to add a .env file to the `api` directory, where specify these variables:
+####For Backend
 
-### `API_PORT`: 9090
+You need to add a .env file to the `api` directory, where specify these variables (for example):
 
-### `CLIENT_URL`: http://localhost:3000
+##### API_PORT: `9090`
 
-### `MONGO_URI`
+##### CLIENT_URL: `http://localhost:3000`
 
-### `JWT_SECRET`: mysecrettoken
+##### MONGO_URI: `mongodb+srv://...`
+
+##### JWT_SECRET: `mysecrettoken`
+
+&nbsp;
+
+#### For Frontend
+
+You need to add a .env file to the `app` directory, where specify these variables (for example):
+
+##### REACT_APP_API_URL: `http://localhost:9090`
+
+&nbsp;
 
 Also if you are using `VSC`, then make in the root of the project, where `api` & `app` folder `.vscode` or add the `settings.json` file there, where insert this parameter:
 
