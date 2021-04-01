@@ -16,11 +16,21 @@ const useStyles = makeStyles({
     minWidth: 650,
     borderBottom: '1px solid rgba(224, 224, 224, 1)',
   },
+  tableHeaderCell: {
+    fontWeight: 600,
+    color: '#5a5a5a',
+    fontSize: 13,
+    paddingBottom: 8,
+  },
   tableCell: {
     borderBottom: 'none',
   },
   tableCellProject: {
     cursor: 'pointer',
+    transition: 'all easy-in-out .2s',
+    '&:hover': {
+      color: '#9c27b0',
+    },
   },
 });
 
@@ -39,9 +49,9 @@ const ProjectsTable: React.FC<ProjectsTableProps> = ({ rows }) => {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Key</TableCell>
-            <TableCell>Lead</TableCell>
+            <TableCell className={classes.tableHeaderCell}>Name</TableCell>
+            <TableCell className={classes.tableHeaderCell}>Key</TableCell>
+            <TableCell className={classes.tableHeaderCell}>Lead</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
