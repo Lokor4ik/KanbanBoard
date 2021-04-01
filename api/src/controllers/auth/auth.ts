@@ -1,9 +1,11 @@
 import { Request, Response } from 'express';
-import { validationResult } from 'express-validator';
+
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-import User from 'models/User';
+import User from 'models/User/User';
+
+import checkErrors from 'utils/middlewareErrors';
 
 import { ReqUser } from './types';
 
@@ -21,11 +23,7 @@ const load = async (req: Request, res: Response) => {
 };
 
 const authenticate = async (req: Request, res: Response) => {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
+  checkErrors(req, res);
 
   const { email, password } = req.body;
 

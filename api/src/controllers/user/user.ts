@@ -1,23 +1,16 @@
 import { Request, Response } from 'express';
-import { validationResult } from 'express-validator';
+
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-import User from 'models/User';
+import User from 'models/User/User';
+
+import checkErrors from 'utils/middlewareErrors';
 
 const { JWT_SECRET } = process.env;
 
 const register = async (req: Request, res: Response) => {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    const newErrors = errors.array().map((errItem) => ({
-      ...errItem,
-      severity: 'error',
-    }));
-
-    return res.status(400).json({ errors: newErrors });
-  }
+  checkErrors(req, res);
 
   const { name, email, password } = req.body;
 
