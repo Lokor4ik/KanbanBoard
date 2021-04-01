@@ -16,6 +16,7 @@ import './SignsForm.scss';
 const useStyles = makeStyles({
   h4: {
     marginBottom: 40,
+    color: '#9c27b0',
   },
   submit: {
     marginTop: 40,
