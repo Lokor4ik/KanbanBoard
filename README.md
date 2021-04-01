@@ -16,7 +16,7 @@ To start server
 
 ## Notes
 
-####For Backend
+#### For Backend
 
 You need to add a .env file to the `api` directory, where specify these variables (for example):
 
@@ -40,4 +40,4 @@ You need to add a .env file to the `app` directory, where specify these variable
 
 Also if you are using `VSC`, then make in the root of the project, where `api` & `app` folder `.vscode` or add the `settings.json` file there, where insert this parameter:
 
-### `"eslint.workingDirectories": ["app/", "api/"]`
+##### `"eslint.workingDirectories": ["app/", "api/"]`
