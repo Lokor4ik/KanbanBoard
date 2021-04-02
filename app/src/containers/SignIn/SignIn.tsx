@@ -1,39 +1,21 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { useDispatch } from 'react-redux';
+import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-
-import { useSnackbar } from 'notistack';
 
 import SignsForm from 'components/SignsForm/SignsForm';
 import CustomLink from 'shared/Link/Link';
 
-import { RootState } from 'store/types';
-import { clearErrors, loginUser } from 'store/auth/action';
+import { loginUser } from 'store/auth/action';
 import { ParamsLoginUser } from 'store/auth/types';
 
 const SignInContainer = () => {
   const { enqueueSnackbar } = useSnackbar();
 
-  const { errors } = useSelector((state: RootState) => state.auth);
-
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (errors.length) {
-      errors.map(({ msg, severity }) =>
-        enqueueSnackbar(msg, {
-          variant: severity,
-        })
-      );
-
-      dispatch(clearErrors());
-    }
-  }, [dispatch, enqueueSnackbar, errors]);
-
   const handleSumbit = ({ email, password }: ParamsLoginUser) => {
-    dispatch(loginUser({ email, password }));
+    dispatch(loginUser({ enqueueSnackbar, email, password }));
   };
 
   const validationSchema = yup.object({
@@ -57,7 +39,6 @@ const SignInContainer = () => {
     <SignsForm
       formik={formik}
       title="Sign In"
-      errorMessages={errors}
       haveAnAccount={
         <CustomLink title="Sign up for an account" path="/signup" className="link--purple" />
       }

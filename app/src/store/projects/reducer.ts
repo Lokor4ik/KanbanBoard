@@ -1,44 +1,54 @@
+import { AnyAction } from 'redux';
+
 import {
-  PROJECT_LOADING_REQUEST,
-  PROJECT_LOADING_SUCCESS,
+  PROJECTS_LOADING_REQUEST,
+  PROJECTS_LOADING_SUCCESS,
+  CREATE_NEW_PROJECT_REQUEST,
+  CREATE_NEW_PROJECT_SUCCESS,
   PROJECTS_FAILURE,
-  CLEAR_ERRORS,
   ProjectInitialState,
-  ProjectsActionTypes,
 } from './types';
 
-const initialState: ProjectInitialState = {
+export const initialStateProjects: ProjectInitialState = {
   rows: [],
-  loading: true,
-  errors: [],
+  loading: false,
+  creatingProject: false,
 };
 
-export default function reducer(state = initialState, action: ProjectsActionTypes) {
+export default function reducer(state = initialStateProjects, action: AnyAction) {
   switch (action.type) {
-    case PROJECT_LOADING_REQUEST:
+    case PROJECTS_LOADING_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case PROJECT_LOADING_SUCCESS: {
+    case CREATE_NEW_PROJECT_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+        creatingProject: true,
+      };
+    }
+    case PROJECTS_LOADING_SUCCESS: {
       return {
         ...state,
         rows: action.payload.rows,
         loading: false,
       };
     }
-    case PROJECTS_FAILURE:
+    case CREATE_NEW_PROJECT_SUCCESS: {
       return {
         ...state,
+        creatingProject: false,
+      };
+    }
+    case PROJECTS_FAILURE: {
+      return {
         rows: [],
         loading: false,
-        errors: action.payload.errors,
+        creatingProject: false,
       };
-    case CLEAR_ERRORS:
-      return {
-        ...state,
-        errors: [],
-      };
+    }
     default:
       return state;
   }

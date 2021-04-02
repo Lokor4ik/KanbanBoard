@@ -2,7 +2,7 @@ import request from 'services/axios';
 import handleErrors from 'utils/actionErrors';
 import getFetchHeaders from 'utils/getFetchHeaders';
 
-import { RootThunkAction } from 'store/types';
+import { RootThunkAction, ProviderContextNotistack } from 'store/types';
 import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
@@ -14,13 +14,13 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
-  LOGOUT,
-  CLEAR_ERRORS,
   ParamsRegisterUser,
   ParamsLoginUser,
 } from './types';
 
-export const loadUser = (): RootThunkAction => async (dispatch) => {
+export const loadUser = ({ enqueueSnackbar }: ProviderContextNotistack): RootThunkAction => async (
+  dispatch
+) => {
   if (localStorage.token) {
     try {
       dispatch({ type: USER_LOADING_REQUEST });
@@ -30,16 +30,21 @@ export const loadUser = (): RootThunkAction => async (dispatch) => {
 
       dispatch({
         type: USER_LOADED_SUCCESS,
-        payload: { user },
+        payload: { user, token: localStorage.getItem('token') },
       });
     } catch (error) {
       localStorage.removeItem('token');
 
       const errors = handleErrors(error);
 
+      errors.map(({ msg, severity }) =>
+        enqueueSnackbar(msg, {
+          variant: severity,
+        })
+      );
+
       dispatch({
         type: AUTH_ERROR,
-        payload: { errors },
       });
     }
   } else {
@@ -50,10 +55,11 @@ export const loadUser = (): RootThunkAction => async (dispatch) => {
 };
 
 export const registerUser = ({
+  enqueueSnackbar,
   name,
   email,
   password,
-}: ParamsRegisterUser): RootThunkAction => async (dispatch) => {
+}: ParamsRegisterUser & ProviderContextNotistack): RootThunkAction => async (dispatch) => {
   try {
     dispatch({ type: REGISTER_REQUEST });
 
@@ -72,16 +78,23 @@ export const registerUser = ({
 
     const errors = handleErrors(error);
 
+    errors.map(({ msg, severity }) =>
+      enqueueSnackbar(msg, {
+        variant: severity,
+      })
+    );
+
     dispatch({
       type: REGISTER_FAILURE,
-      payload: { errors },
     });
   }
 };
 
-export const loginUser = ({ email, password }: ParamsLoginUser): RootThunkAction => async (
-  dispatch
-) => {
+export const loginUser = ({
+  enqueueSnackbar,
+  email,
+  password,
+}: ParamsLoginUser & ProviderContextNotistack): RootThunkAction => async (dispatch) => {
   try {
     dispatch({ type: LOGIN_REQUEST });
 
@@ -100,19 +113,14 @@ export const loginUser = ({ email, password }: ParamsLoginUser): RootThunkAction
 
     const errors = handleErrors(error);
 
+    errors.map(({ msg, severity }) =>
+      enqueueSnackbar(msg, {
+        variant: severity,
+      })
+    );
+
     dispatch({
       type: LOGIN_FAILURE,
-      payload: { errors },
     });
   }
-};
-
-export const logoutUser = (): RootThunkAction => async (dispatch) => {
-  localStorage.removeItem('token');
-
-  dispatch({ type: LOGOUT });
-};
-
-export const clearErrors = (): RootThunkAction => async (dispatch) => {
-  dispatch({ type: CLEAR_ERRORS });
 };

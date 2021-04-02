@@ -19,7 +19,7 @@ const createProject = async (req: Request, res: Response) => {
 
     await project.save();
 
-    res.json(project);
+    res.json({ msg: 'Successfully created project', severity: 'success' });
   } catch (error) {
     res.status(500).send('Server Error');
   }

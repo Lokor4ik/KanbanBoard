@@ -1,3 +1,5 @@
+import { AnyAction } from 'redux';
+
 import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
@@ -9,21 +11,17 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
-  LOGOUT,
-  CLEAR_ERRORS,
-  AuthActionTypes,
   AuthInitialState,
 } from './types';
 
-const initialState: AuthInitialState = {
-  token: localStorage.getItem('token'),
+export const initialStateAuth: AuthInitialState = {
+  token: null,
   isAuthenticated: false,
   loading: true,
   user: null,
-  errors: [],
 };
 
-export default function reducer(state = initialState, action: AuthActionTypes) {
+export default function reducer(state = initialStateAuth, action: AnyAction) {
   switch (action.type) {
     case REGISTER_REQUEST:
     case LOGIN_REQUEST:
@@ -40,10 +38,10 @@ export default function reducer(state = initialState, action: AuthActionTypes) {
     case USER_LOADED_SUCCESS:
       return {
         ...state,
+        token: action.payload.token,
         isAuthenticated: true,
         loading: false,
         user: action.payload.user,
-        errors: [],
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
@@ -53,16 +51,6 @@ export default function reducer(state = initialState, action: AuthActionTypes) {
         isAuthenticated: true,
         loading: false,
         user: action.payload.user,
-        errors: [],
-      };
-    case LOGOUT:
-      return {
-        ...state,
-        token: null,
-        isAuthenticated: false,
-        loading: false,
-        user: null,
-        errors: [],
       };
     case AUTH_ERROR:
     case REGISTER_FAILURE:
@@ -73,12 +61,6 @@ export default function reducer(state = initialState, action: AuthActionTypes) {
         isAuthenticated: false,
         loading: false,
         user: null,
-        errors: action.payload.errors,
-      };
-    case CLEAR_ERRORS:
-      return {
-        ...state,
-        errors: [],
       };
     default:
       return state;

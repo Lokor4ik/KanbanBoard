@@ -2,29 +2,80 @@ import request from 'services/axios';
 import getFetchHeaders from 'utils/getFetchHeaders';
 import handleErrors from 'utils/actionErrors';
 
-import { RootThunkAction } from 'store/types';
+import { RootThunkAction, ProviderContextNotistack } from 'store/types';
 
-import { PROJECT_LOADING_REQUEST, PROJECT_LOADING_SUCCESS, PROJECTS_FAILURE } from './types';
+import {
+  PROJECTS_LOADING_REQUEST,
+  PROJECTS_LOADING_SUCCESS,
+  CREATE_NEW_PROJECT_REQUEST,
+  CREATE_NEW_PROJECT_SUCCESS,
+  PROJECTS_FAILURE,
+  ParamsNewProject,
+} from './types';
 
-export const getProjects = (): RootThunkAction => async (dispatch) => {
+export const getProjects = ({
+  enqueueSnackbar,
+}: ProviderContextNotistack): RootThunkAction => async (dispatch) => {
   try {
     dispatch({
-      type: PROJECT_LOADING_REQUEST,
+      type: PROJECTS_LOADING_REQUEST,
     });
 
     const headers = getFetchHeaders();
     const rows = await request('/api/project', 'GET', null, headers);
 
     dispatch({
-      type: PROJECT_LOADING_SUCCESS,
+      type: PROJECTS_LOADING_SUCCESS,
       payload: { rows },
     });
   } catch (error) {
     const errors = handleErrors(error);
 
+    errors.map(({ msg, severity }) =>
+      enqueueSnackbar(msg, {
+        variant: severity,
+      })
+    );
+
     dispatch({
       type: PROJECTS_FAILURE,
-      payload: { errors },
+    });
+  }
+};
+
+export const createNewProject = ({
+  enqueueSnackbar,
+  name,
+  key,
+  lead,
+}: ParamsNewProject & ProviderContextNotistack): RootThunkAction => async (dispatch) => {
+  try {
+    dispatch({
+      type: CREATE_NEW_PROJECT_REQUEST,
+    });
+
+    const headers = getFetchHeaders();
+    const body = JSON.stringify({ name, key, lead });
+    const { msg, severity } = await request('/api/project', 'POST', body, headers);
+
+    enqueueSnackbar(msg, {
+      variant: severity,
+    });
+
+    dispatch({
+      type: CREATE_NEW_PROJECT_SUCCESS,
+    });
+  } catch (error) {
+    const errors = handleErrors(error);
+
+    errors.map(({ msg, severity }) =>
+      enqueueSnackbar(msg, {
+        variant: severity,
+      })
+    );
+
+    dispatch({
+      type: PROJECTS_FAILURE,
     });
   }
 };

@@ -1,15 +1,16 @@
 export const SET_CARD_DESTINATION = 'SET_CARD_DESTINATION';
 
-interface ChangeCardDistinationPayload {
-  modifiedColumns: TypeKanbanColumns;
+export interface KanbanInitialState {
+  columns: {
+    [x: string]: {
+      name: string;
+      items: {
+        id: string;
+        content: string;
+      }[];
+    };
+  };
 }
-
-interface ChangeCardDistinationAction {
-  type: string;
-  payload: ChangeCardDistinationPayload;
-}
-
-export type KanbanActionTypes = ChangeCardDistinationAction;
 
 export interface TypeKanbanColumns {
   [key: string]: {

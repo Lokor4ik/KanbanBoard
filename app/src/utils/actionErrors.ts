@@ -1,8 +1,10 @@
-import { Color } from '@material-ui/lab/Alert';
+import { VariantType } from 'notistack';
 
-const defaultError = [{ msg: 'Something went wrong', severity: 'error' }];
+const defaultError: Array<{ msg: string; severity: VariantType | undefined }> = [
+  { msg: 'Something went wrong', severity: 'error' },
+];
 
-const handleErrors = (error: Array<{ msg: string; severity: Color }> | Error) =>
+const handleErrors = (error: Array<{ msg: string; severity: VariantType | undefined }> | Error) =>
   error instanceof Array ? error : defaultError;
 
 export default handleErrors;

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useSnackbar } from 'notistack';
 
 import Loader from 'shared/Loader/Loader';
 import NavBar from 'shared/NavBar/NavBar';
@@ -12,15 +13,17 @@ import { useRoutes } from 'routes/Routes';
 import './App.scss';
 
 const App = () => {
+  const { enqueueSnackbar } = useSnackbar();
+
   const { isAuthenticated, loading } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const routes = useRoutes(isAuthenticated);
 
   useEffect(() => {
     if (!isAuthenticated) {
-      dispatch(loadUser());
+      dispatch(loadUser({ enqueueSnackbar }));
     }
-  }, [dispatch, isAuthenticated]);
+  }, [dispatch, enqueueSnackbar, isAuthenticated]);
 
   if (loading) {
     return <Loader />;

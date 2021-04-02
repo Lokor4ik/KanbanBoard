@@ -1,4 +1,3 @@
-import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,6 +11,11 @@ import TableRow from '@material-ui/core/TableRow';
 import { ProjectsTableProps } from './types';
 
 const useStyles = makeStyles({
+  tableContainer: {
+    overflowY: 'auto',
+    height: 700,
+    marginTop: 20,
+  },
   table: {
     minWidth: 650,
     borderBottom: '1px solid rgba(224, 224, 224, 1)',
@@ -45,8 +49,8 @@ const ProjectsTable: React.FC<ProjectsTableProps> = ({ rows }) => {
   };
 
   return (
-    <TableContainer>
-      <Table className={classes.table} aria-label="simple table">
+    <TableContainer className={classes.tableContainer}>
+      <Table className={classes.table} aria-label="simple table" stickyHeader>
         <TableHead>
           <TableRow>
             <TableCell className={classes.tableHeaderCell}>Name</TableCell>
@@ -56,7 +60,7 @@ const ProjectsTable: React.FC<ProjectsTableProps> = ({ rows }) => {
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.name}>
+            <TableRow key={row.id}>
               <TableCell
                 className={`${classes.tableCell} ${classes.tableCellProject}`}
                 onClick={() => handleClickProject(row.key, row.id)}

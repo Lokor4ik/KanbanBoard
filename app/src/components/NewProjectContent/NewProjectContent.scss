@@ -1,3 +1,13 @@
 .new-project__wrapper {
   padding-top: 20px;
 }
+.new-project__form {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+
+  form {
+    min-width: 536px;
+    max-width: 536px;
+  }
+}

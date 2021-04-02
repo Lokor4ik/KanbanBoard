@@ -1,42 +1,25 @@
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
+import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
 import TextField from '@material-ui/core/TextField';
 
-import { useSnackbar } from 'notistack';
-
 import SignsForm from 'components/SignsForm/SignsForm';
 import CustomLink from 'shared/Link/Link';
 import NameField from 'components/NameField/NameField';
 
-import { RootState } from 'store/types';
-import { clearErrors, registerUser } from 'store/auth/action';
+import { registerUser } from 'store/auth/action';
 import { ParamsRegisterUser } from 'store/auth/types';
 
 const SignUpContainer = () => {
   const { enqueueSnackbar } = useSnackbar();
 
-  const { errors } = useSelector((state: RootState) => state.auth);
-
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (errors.length) {
-      errors.map(({ msg, severity }) =>
-        enqueueSnackbar(msg, {
-          variant: severity,
-        })
-      );
-
-      dispatch(clearErrors());
-    }
-  }, [dispatch, enqueueSnackbar, errors]);
-
   const handleSumbit = ({ name, email, password }: ParamsRegisterUser) => {
-    dispatch(registerUser({ name, email, password }));
+    dispatch(registerUser({ enqueueSnackbar, name, email, password }));
   };
 
   const validationSchema = yup.object({
@@ -70,7 +53,6 @@ const SignUpContainer = () => {
     <SignsForm
       formik={formik}
       title="Sign Up"
-      errorMessages={errors}
       haveAnAccount={
         <CustomLink
           title="Already have an account? Log In"

@@ -1,22 +1,16 @@
-import { Color } from '@material-ui/lab/Alert';
-
-export const PROJECT_LOADING_REQUEST = 'PROJECT_LOADING_REQUEST';
-export const PROJECT_LOADING_SUCCESS = 'PROJECT_LOADING_SUCCESS';
+export const PROJECTS_LOADING_REQUEST = 'PROJECTS_LOADING_REQUEST';
+export const PROJECTS_LOADING_SUCCESS = 'PROJECTS_LOADING_SUCCESS';
+export const CREATE_NEW_PROJECT_REQUEST = 'CREATE_NEW_PROJECT_REQUEST';
+export const CREATE_NEW_PROJECT_SUCCESS = 'CREATE_NEW_PROJECT_SUCCESS';
 export const PROJECTS_FAILURE = 'PROJECTS_FAILURE';
-export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
 export type ProjectsRows = Array<{ id: string; name: string; key: string; lead: string }>;
 
 export interface ProjectInitialState {
   rows: ProjectsRows;
   loading: boolean;
-  errors: Array<{ msg: string; severity: Color }>;
+  creatingProject: boolean;
 }
-
-export type ProjectsActionTypes = {
-  type: string;
-  payload: ProjectInitialState;
-};
 
 export type ParamsNewProject = {
   name: string;

@@ -12,9 +12,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 
 import { RootState } from 'store/types';
-import { logoutUser } from 'store/auth/action';
 
 import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { clearAllStoreData } from 'store/rootAction';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -52,7 +52,7 @@ const UserMenu = () => {
   };
 
   const handleLogout = () => {
-    dispatch(logoutUser());
+    dispatch(clearAllStoreData());
     history.push('/');
 
     setOpen(false);

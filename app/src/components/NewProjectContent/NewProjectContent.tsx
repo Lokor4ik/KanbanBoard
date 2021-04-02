@@ -12,6 +12,9 @@ const useStyles = makeStyles({
   h6: {
     fontWeight: 500,
   },
+  submit: {
+    marginTop: 40,
+  },
 });
 
 const NewProjectContent: React.FC<NewProjectContentProps> = ({ formik }) => {
@@ -23,33 +26,35 @@ const NewProjectContent: React.FC<NewProjectContentProps> = ({ formik }) => {
         New project
       </Typography>
 
-      <form onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          id="email"
-          name="email"
-          label="Email"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-        />
-        <TextField
-          fullWidth
-          id="password"
-          name="password"
-          label="Password"
-          type="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
-        />
+      <div className="new-project__form">
+        <form onSubmit={formik.handleSubmit}>
+          <TextField
+            fullWidth
+            id="name"
+            name="name"
+            label="Name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            error={formik.touched.name && Boolean(formik.errors.name)}
+            helperText={formik.touched.name && formik.errors.name}
+          />
+          <TextField
+            fullWidth
+            id="key"
+            name="key"
+            label="Key"
+            type="key"
+            value={formik.values.key}
+            onChange={formik.handleChange}
+            error={formik.touched.key && Boolean(formik.errors.key)}
+            helperText={formik.touched.key && formik.errors.key}
+          />
 
-        <ColorButton fullWidth type="submit">
-          Submit
-        </ColorButton>
-      </form>
+          <ColorButton fullWidth type="submit" className={classes.submit}>
+            Submit
+          </ColorButton>
+        </form>
+      </div>
     </div>
   );
 };

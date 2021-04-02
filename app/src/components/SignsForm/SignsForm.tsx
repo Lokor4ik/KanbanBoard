@@ -1,13 +1,9 @@
-import { useDispatch } from 'react-redux';
-
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 import { makeStyles } from '@material-ui/core/styles';
 
 import ColorButton from 'shared/Button/Button';
-
-import { clearErrors } from 'store/auth/action';
 
 import { SignsProps } from './types';
 
@@ -23,22 +19,8 @@ const useStyles = makeStyles({
   },
 });
 
-const SignsForm: React.FC<SignsProps> = ({
-  formik,
-  title,
-  errorMessages,
-  children,
-  nameField,
-  haveAnAccount,
-}) => {
+const SignsForm: React.FC<SignsProps> = ({ formik, title, children, nameField, haveAnAccount }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-
-  const handleClickSubmit = () => {
-    if (errorMessages.length) {
-      dispatch(clearErrors());
-    }
-  };
 
   return (
     <div className="signs__wrapper">
@@ -72,7 +54,7 @@ const SignsForm: React.FC<SignsProps> = ({
 
         {children}
 
-        <ColorButton onClick={handleClickSubmit} fullWidth type="submit" className={classes.submit}>
+        <ColorButton fullWidth type="submit" className={classes.submit}>
           Submit
         </ColorButton>
 

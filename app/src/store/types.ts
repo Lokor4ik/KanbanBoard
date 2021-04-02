@@ -1,8 +1,21 @@
 import { ThunkAction } from 'redux-thunk';
-import { Action } from 'redux';
+import { AnyAction } from 'redux';
+import { SnackbarMessage, OptionsObject, SnackbarKey } from 'notistack';
 
-import rootReducer from './rootReducer';
+import { AuthInitialState } from './auth/types';
+import { ProjectInitialState } from './projects/types';
+import { KanbanInitialState } from './kanban/types';
 
-export type RootState = ReturnType<typeof rootReducer>;
+export const CLEAR_ALL_REDUCERS_DATA = 'CLEAR_ALL_REDUCERS_DATA';
 
-export type RootThunkAction = ThunkAction<void, RootState, null, Action<string>>;
+export interface RootState {
+  kanban: KanbanInitialState;
+  auth: AuthInitialState;
+  projects: ProjectInitialState;
+}
+
+export type RootThunkAction = ThunkAction<void, RootState, null, AnyAction>;
+
+export interface ProviderContextNotistack {
+  enqueueSnackbar: (message: SnackbarMessage, options?: OptionsObject) => SnackbarKey;
+}

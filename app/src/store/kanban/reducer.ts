@@ -1,8 +1,9 @@
+import { AnyAction } from 'redux';
 import { v4 as uuidv4 } from 'uuid';
 
-import { SET_CARD_DESTINATION, KanbanActionTypes } from './types';
+import { SET_CARD_DESTINATION, KanbanInitialState } from './types';
 
-const initialState = {
+export const initialStateKanban: KanbanInitialState = {
   columns: {
     [uuidv4()]: {
       name: 'Requested',
@@ -29,7 +30,7 @@ const initialState = {
   },
 };
 
-export default function reducer(state = initialState, action: KanbanActionTypes) {
+export default function reducer(state = initialStateKanban, action: AnyAction) {
   switch (action.type) {
     case SET_CARD_DESTINATION: {
       return {
