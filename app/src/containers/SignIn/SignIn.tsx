@@ -9,6 +9,8 @@ import CustomLink from 'shared/Link/Link';
 import { loginUser } from 'store/auth/action';
 import { ParamsLoginUser } from 'store/auth/types';
 
+import './SignIn.scss';
+
 const SignInContainer = () => {
   const { enqueueSnackbar } = useSnackbar();
 
@@ -36,13 +38,15 @@ const SignInContainer = () => {
   });
 
   return (
-    <SignsForm
-      formik={formik}
-      title="Sign In"
-      haveAnAccount={
-        <CustomLink title="Sign up for an account" path="/signup" className="link--purple" />
-      }
-    />
+    <div className="sign-in__wrapper">
+      <SignsForm
+        formik={formik}
+        title="Sign In"
+        haveAnAccount={
+          <CustomLink title="Sign up for an account" path="/signup" className="link--purple" />
+        }
+      />
+    </div>
   );
 };
 

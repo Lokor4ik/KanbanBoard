@@ -3,7 +3,7 @@ import MainLayout from 'layouts/MainLayout/MainLayout';
 import SignInContainer from 'containers/SignIn/SignIn';
 
 const SignIn = () => (
-  <MainLayout sectionName="signin">
+  <MainLayout sectionName="sign-in">
     <SignInContainer />
   </MainLayout>
 );

@@ -12,6 +12,8 @@ import { createNewProject } from 'store/projects/action';
 
 import { FormikParamsNewProject } from './types';
 
+import './NewProject.scss';
+
 const NewProject = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { user } = useSelector((state: RootState) => state.auth);
@@ -41,7 +43,11 @@ const NewProject = () => {
     onSubmit: handleSumbit,
   });
 
-  return <NewProjectContent formik={formik} />;
+  return (
+    <div className="new-project__wrapper">
+      <NewProjectContent formik={formik} />
+    </div>
+  );
 };
 
 export default NewProject;

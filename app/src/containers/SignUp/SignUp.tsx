@@ -13,6 +13,8 @@ import NameField from 'components/NameField/NameField';
 import { registerUser } from 'store/auth/action';
 import { ParamsRegisterUser } from 'store/auth/types';
 
+import './SignUp.scss';
+
 const SignUpContainer = () => {
   const { enqueueSnackbar } = useSnackbar();
 
@@ -50,30 +52,32 @@ const SignUpContainer = () => {
   });
 
   return (
-    <SignsForm
-      formik={formik}
-      title="Sign Up"
-      haveAnAccount={
-        <CustomLink
-          title="Already have an account? Log In"
-          path="/signin"
-          className="link--purple"
+    <div className="sign-up__wrapper">
+      <SignsForm
+        formik={formik}
+        title="Sign Up"
+        haveAnAccount={
+          <CustomLink
+            title="Already have an account? Log In"
+            path="/signin"
+            className="link--purple"
+          />
+        }
+        nameField={<NameField formik={formik} />}
+      >
+        <TextField
+          fullWidth
+          id="confirmPassword"
+          name="confirmPassword"
+          label="Confirm password"
+          type="password"
+          value={formik.values.confirmPassword}
+          onChange={formik.handleChange}
+          error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+          helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
         />
-      }
-      nameField={<NameField formik={formik} />}
-    >
-      <TextField
-        fullWidth
-        id="confirmPassword"
-        name="confirmPassword"
-        label="Confirm password"
-        type="password"
-        value={formik.values.confirmPassword}
-        onChange={formik.handleChange}
-        error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
-        helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
-      />
-    </SignsForm>
+      </SignsForm>
+    </div>
   );
 };
 

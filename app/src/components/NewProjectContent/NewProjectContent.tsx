@@ -21,7 +21,7 @@ const NewProjectContent: React.FC<NewProjectContentProps> = ({ formik }) => {
   const classes = useStyles();
 
   return (
-    <div className="new-project__wrapper">
+    <>
       <Typography variant="h6" className={classes.h6}>
         New project
       </Typography>
@@ -55,7 +55,7 @@ const NewProjectContent: React.FC<NewProjectContentProps> = ({ formik }) => {
           </ColorButton>
         </form>
       </div>
-    </div>
+    </>
   );
 };
 

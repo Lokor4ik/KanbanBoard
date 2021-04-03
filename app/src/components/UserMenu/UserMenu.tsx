@@ -77,7 +77,7 @@ const UserMenu = () => {
   }, [open]);
 
   return (
-    <div>
+    <>
       <Button
         ref={anchorRef}
         aria-controls={open ? 'menu-list-grow' : undefined}
@@ -111,7 +111,7 @@ const UserMenu = () => {
           </Grow>
         )}
       </Popper>
-    </div>
+    </>
   );
 };
 

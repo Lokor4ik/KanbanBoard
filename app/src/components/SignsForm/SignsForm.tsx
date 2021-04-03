@@ -23,12 +23,12 @@ const SignsForm: React.FC<SignsProps> = ({ formik, title, children, nameField, h
   const classes = useStyles();
 
   return (
-    <div className="signs__wrapper">
+    <>
       <Typography variant="h4" className={classes.h4}>
         {title}
       </Typography>
 
-      <form onSubmit={formik.handleSubmit}>
+      <form className="signs-form" onSubmit={formik.handleSubmit}>
         {nameField}
         <TextField
           fullWidth
@@ -60,7 +60,7 @@ const SignsForm: React.FC<SignsProps> = ({ formik, title, children, nameField, h
 
         {haveAnAccount}
       </form>
-    </div>
+    </>
   );
 };
 
