@@ -14,6 +14,7 @@ const { JWT_SECRET } = process.env;
 const load = async (req: Request, res: Response) => {
   try {
     const { user: usr } = req;
+
     const user = await User.findById((usr as ReqUser).id).select('-password');
 
     res.json(user);
@@ -25,9 +26,9 @@ const load = async (req: Request, res: Response) => {
 const authenticate = async (req: Request, res: Response) => {
   checkErrors(req, res);
 
-  const { email, password } = req.body;
-
   try {
+    const { email, password } = req.body;
+
     const user = await User.findOne({ email });
 
     if (!user) {
