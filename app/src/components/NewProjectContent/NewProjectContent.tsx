@@ -3,6 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 
 import ColorButton from 'shared/Button/Button';
+import NameField from 'components/NameField/NameField';
 
 import { NewProjectContentProps } from './types';
 
@@ -28,16 +29,7 @@ const NewProjectContent: React.FC<NewProjectContentProps> = ({ formik }) => {
 
       <div className="new-project__form">
         <form onSubmit={formik.handleSubmit}>
-          <TextField
-            fullWidth
-            id="name"
-            name="name"
-            label="Name"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
-          />
+          <NameField formik={formik} />
           <TextField
             fullWidth
             id="key"

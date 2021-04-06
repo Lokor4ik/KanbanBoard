@@ -1,5 +1,3 @@
-import { useHistory, useLocation } from 'react-router-dom';
-
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -38,15 +36,8 @@ const useStyles = makeStyles({
   },
 });
 
-const ProjectsTable: React.FC<ProjectsTableProps> = ({ rows }) => {
-  const history = useHistory();
-  const location = useLocation();
-
+const ProjectsTable: React.FC<ProjectsTableProps> = ({ rows, fetchProject }) => {
   const classes = useStyles();
-
-  const handleClickProject = (key: string, id: string) => {
-    history.push(`${location.pathname}/${key}/boards/${id}`);
-  };
 
   return (
     <TableContainer className={classes.tableContainer}>
@@ -63,7 +54,7 @@ const ProjectsTable: React.FC<ProjectsTableProps> = ({ rows }) => {
             <TableRow key={row.id}>
               <TableCell
                 className={`${classes.tableCell} ${classes.tableCellProject}`}
-                onClick={() => handleClickProject(row.key, row.id)}
+                onClick={() => fetchProject(row.id)}
               >
                 {row.name}
               </TableCell>

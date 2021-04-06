@@ -1,6 +1,8 @@
 import { useEffect, useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
+import CryptoAES from 'crypto-js/aes';
 
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,7 +13,7 @@ import CustomLink from 'shared/Link/Link';
 import ProjectsTable from 'components/ProjectsTable/ProjectsTable';
 
 import { RootState } from 'store/types';
-import { getProjects } from 'store/projects/action';
+import { getProjects, getOneProject } from 'store/projects/action';
 
 import './Projects.scss';
 
@@ -28,6 +30,7 @@ const useStyles = makeStyles({
 });
 
 const ProjectsContainer = () => {
+  const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
   const classes = useStyles();
 
@@ -44,6 +47,15 @@ const ProjectsContainer = () => {
       fetchProjects();
     }
   }, [fetchProjects, creatingProject]);
+
+  const fetchProject = async (id: string) => {
+    const encryptId = CryptoAES.encrypt(id, String(process.env.REACT_APP_ENCRYPT_SECRET_KEY));
+    await dispatch(
+      getOneProject({ id: encodeURIComponent(encryptId.toString()), enqueueSnackbar })
+    );
+
+    history.push(`/projects/${encryptId.toString()}`);
+  };
 
   const tableContainerClasses = useMemo(
     () =>
@@ -69,7 +81,7 @@ const ProjectsContainer = () => {
         />
       </div>
       {rows.length ? (
-        <ProjectsTable rows={rows} />
+        <ProjectsTable fetchProject={fetchProject} rows={rows} />
       ) : (
         <Typography className={classes.body1} variant="body1">
           There are no projects in which you are involved

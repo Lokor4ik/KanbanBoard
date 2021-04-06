@@ -9,8 +9,11 @@ import {
   PROJECTS_LOADING_SUCCESS,
   CREATE_NEW_PROJECT_REQUEST,
   CREATE_NEW_PROJECT_SUCCESS,
+  GET_ONE_PROJECT_REQUEST,
+  GET_ONE_PROJECT_SUCCESS,
   PROJECTS_FAILURE,
   ParamsNewProject,
+  ParamsGetOneProject,
 } from './types';
 
 export const getProjects = ({
@@ -64,6 +67,37 @@ export const createNewProject = ({
 
     dispatch({
       type: CREATE_NEW_PROJECT_SUCCESS,
+    });
+  } catch (error) {
+    const errors = handleErrors(error);
+
+    errors.map(({ msg, severity }) =>
+      enqueueSnackbar(msg, {
+        variant: severity,
+      })
+    );
+
+    dispatch({
+      type: PROJECTS_FAILURE,
+    });
+  }
+};
+
+export const getOneProject = ({
+  id,
+  enqueueSnackbar,
+}: ParamsGetOneProject & ProviderContextNotistack): RootThunkAction => async (dispatch) => {
+  try {
+    dispatch({
+      type: GET_ONE_PROJECT_REQUEST,
+    });
+
+    const headers = getFetchHeaders();
+    const project = await request(`/api/project/one?id=${id}`, 'GET', null, headers);
+
+    dispatch({
+      type: GET_ONE_PROJECT_SUCCESS,
+      payload: { project },
     });
   } catch (error) {
     const errors = handleErrors(error);

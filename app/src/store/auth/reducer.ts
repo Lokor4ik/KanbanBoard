@@ -56,11 +56,7 @@ export default function reducer(state = initialStateAuth, action: AnyAction) {
     case REGISTER_FAILURE:
     case LOGIN_FAILURE:
       return {
-        ...state,
-        token: null,
-        isAuthenticated: false,
-        loading: false,
-        user: null,
+        ...initialStateAuth,
       };
     default:
       return state;
