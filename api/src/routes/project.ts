@@ -23,4 +23,9 @@ router.post('/', middlewares, projectController.createProject);
 // @access Private
 router.get('/', auth, projectController.getAllProjects);
 
+// @route  GET api/project/:id
+// @desc   Get one project
+// @access Private
+router.get('/one', auth, projectController.getOneProject);
+
 export default router;
