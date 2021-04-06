@@ -12,9 +12,9 @@ const { JWT_SECRET } = process.env;
 const register = async (req: Request, res: Response) => {
   checkErrors(req, res);
 
-  const { name, email, password } = req.body;
-
   try {
+    const { name, email, password } = req.body;
+
     let user = await User.findOne({ email });
 
     if (user) {
@@ -61,4 +61,18 @@ const register = async (req: Request, res: Response) => {
   }
 };
 
-export default { register };
+const findByEmail = async (req: Request, res: Response) => {
+  checkErrors(req, res);
+
+  try {
+    const { email } = req.query;
+
+    const user = await User.findOne({ email: String(email) });
+
+    res.json({ user });
+  } catch (error) {
+    res.status(500).send('Server Error');
+  }
+};
+
+export default { register, findByEmail };
