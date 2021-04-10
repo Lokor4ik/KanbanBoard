@@ -11,9 +11,15 @@ import {
   CREATE_NEW_PROJECT_SUCCESS,
   GET_ONE_PROJECT_REQUEST,
   GET_ONE_PROJECT_SUCCESS,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
+  PROJECTS_ONE_PROJECT_FAILURE,
+  PROJECTS_FIND_USER_FAILURE,
   PROJECTS_FAILURE,
+  CLEAR_ERRORS,
   ParamsNewProject,
   ParamsGetOneProject,
+  ParamsGetUserByEmail,
 } from './types';
 
 export const getProjects = ({
@@ -109,7 +115,53 @@ export const getOneProject = ({
     );
 
     dispatch({
-      type: PROJECTS_FAILURE,
+      type: PROJECTS_ONE_PROJECT_FAILURE,
     });
   }
+};
+
+export const getUserByEmail = ({
+  user,
+  enqueueSnackbar,
+}: ParamsGetUserByEmail & ProviderContextNotistack): RootThunkAction => async (dispatch) => {
+  try {
+    dispatch({
+      type: GET_USER_REQUEST,
+    });
+
+    const headers = getFetchHeaders();
+    const { user: userData, message } = await request(
+      `/api/user?email=${user}`,
+      'GET',
+      null,
+      headers
+    );
+
+    enqueueSnackbar(message.msg, {
+      variant: message.severity,
+    });
+
+    dispatch({
+      type: GET_USER_SUCCESS,
+      payload: { userData },
+    });
+  } catch (error) {
+    const errors = handleErrors(error);
+
+    errors.map(({ msg, severity }) =>
+      enqueueSnackbar(msg, {
+        variant: severity,
+      })
+    );
+
+    dispatch({
+      type: PROJECTS_FIND_USER_FAILURE,
+    });
+  }
+};
+
+export const clearProjectErrors = (): RootThunkAction => async (dispatch) => {
+  dispatch({
+    type: CLEAR_ERRORS,
+  });
 };

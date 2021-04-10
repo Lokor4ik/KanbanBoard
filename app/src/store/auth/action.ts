@@ -26,7 +26,7 @@ export const loadUser = ({ enqueueSnackbar }: ProviderContextNotistack): RootThu
       dispatch({ type: USER_LOADING_REQUEST });
 
       const headers = getFetchHeaders();
-      const user = await await request('/api/auth', 'GET', null, headers);
+      const user = await request('/api/auth', 'GET', null, headers);
 
       dispatch({
         type: USER_LOADED_SUCCESS,
