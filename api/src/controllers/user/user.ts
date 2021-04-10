@@ -67,9 +67,18 @@ const findByEmail = async (req: Request, res: Response) => {
   try {
     const { email } = req.query;
 
-    const user = await User.findOne({ email: String(email) });
+    const user = await User.findOne({ email: String(email) }, { _id: 1, name: 1, email: 1 });
 
-    res.json({ user });
+    if (!user) {
+      return res.status(404).json({ errors: [{ msg: 'User is not found', severity: 'error' }] });
+    }
+
+    const userData = {
+      user: { _id: user?._id, name: user?.name, email: user?.email },
+      message: { msg: 'User found successfully', severity: 'success' },
+    };
+
+    res.json(userData);
   } catch (error) {
     res.status(500).send('Server Error');
   }
