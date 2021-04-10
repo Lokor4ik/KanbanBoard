@@ -25,7 +25,7 @@ const App = () => {
     }
   }, [dispatch, enqueueSnackbar, isAuthenticated]);
 
-  if (loading) {
+  if (loading || (localStorage.token && !isAuthenticated)) {
     return <Loader />;
   }
 
