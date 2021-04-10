@@ -4,20 +4,28 @@ export const CREATE_NEW_PROJECT_REQUEST = 'CREATE_NEW_PROJECT_REQUEST';
 export const CREATE_NEW_PROJECT_SUCCESS = 'CREATE_NEW_PROJECT_SUCCESS';
 export const GET_ONE_PROJECT_REQUEST = 'GET_ONE_PROJECT_REQUEST';
 export const GET_ONE_PROJECT_SUCCESS = 'GET_ONE_PROJECT_SUCCESS';
+export const GET_USER_REQUEST = 'GET_USER_REQUEST';
+export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
 export const PROJECTS_FAILURE = 'PROJECTS_FAILURE';
+export const PROJECTS_ONE_PROJECT_FAILURE = 'PROJECTS_ONE_PROJECT_FAILURE';
+export const PROJECTS_FIND_USER_FAILURE = 'PROJECTS_FIND_USER_FAILURE';
+export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
-export type ProjectsRows = Array<{ id: string; name: string; key: string; lead: string }>;
+export type ProjectsRows = Array<{ _id: string; name: string; key: string; lead: string }>;
+export type ProjectParticipants = Array<{ _id: string; name: string; email: string }>;
 
 export interface ProjectInitialState {
   rows: ProjectsRows;
   loading: boolean;
   creatingProject: boolean;
   currentProject: {
-    id: string;
+    _id: string;
     name: string;
     key: string;
     lead: string;
+    participants: ProjectParticipants;
   };
+  error: boolean;
 }
 
 export type ParamsNewProject = {
@@ -28,4 +36,8 @@ export type ParamsNewProject = {
 
 export type ParamsGetOneProject = {
   id: string;
+};
+
+export type ParamsGetUserByEmail = {
+  user: string;
 };
