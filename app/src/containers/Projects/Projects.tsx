@@ -2,7 +2,7 @@ import { useEffect, useCallback, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
-import CryptoAES from 'crypto-js/aes';
+// import CryptoAES from 'crypto-js/aes';
 
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,7 +13,7 @@ import CustomLink from 'shared/Link/Link';
 import ProjectsTable from 'components/ProjectsTable/ProjectsTable';
 
 import { RootState } from 'store/types';
-import { getProjects, getOneProject } from 'store/projects/action';
+import { getProjects } from 'store/projects/action';
 
 import './Projects.scss';
 
@@ -49,12 +49,10 @@ const ProjectsContainer = () => {
   }, [fetchProjects, creatingProject]);
 
   const fetchProject = async (id: string) => {
-    const encryptId = CryptoAES.encrypt(id, String(process.env.REACT_APP_ENCRYPT_SECRET_KEY));
-    await dispatch(
-      getOneProject({ id: encodeURIComponent(encryptId.toString()), enqueueSnackbar })
-    );
+    /* const encryptId = CryptoAES.encrypt(id, String(process.env.REACT_APP_ENCRYPT_SECRET_KEY));
+    const convertedId = encodeURIComponent(encryptId.toString()); */
 
-    history.push(`/projects/${encryptId.toString()}`);
+    history.push(`/projects/${id}`);
   };
 
   const tableContainerClasses = useMemo(
@@ -63,12 +61,12 @@ const ProjectsContainer = () => {
     [rows.length]
   );
 
-  if (loading || creatingProject) {
+  if (loading || creatingProject || !rows.length) {
     return <Loader />;
   }
 
   return (
-    <div className={tableContainerClasses}>
+    <div className={`${tableContainerClasses} shared--wrapper`}>
       <div className="projects__top">
         <Typography variant="h6" className={classes.h6}>
           Projects

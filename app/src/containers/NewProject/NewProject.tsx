@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
-
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
@@ -11,8 +10,6 @@ import { RootState } from 'store/types';
 import { createNewProject } from 'store/projects/action';
 
 import { FormikParamsNewProject } from './types';
-
-import './NewProject.scss';
 
 const NewProject = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -44,7 +41,7 @@ const NewProject = () => {
   });
 
   return (
-    <div className="new-project__wrapper">
+    <div className="new-project__wrapper shared--wrapper">
       <NewProjectContent formik={formik} />
     </div>
   );

@@ -51,10 +51,10 @@ const ProjectsTable: React.FC<ProjectsTableProps> = ({ rows, fetchProject }) => 
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.id}>
+            <TableRow key={row._id}>
               <TableCell
                 className={`${classes.tableCell} ${classes.tableCellProject}`}
-                onClick={() => fetchProject(row.id)}
+                onClick={() => fetchProject(row._id)}
               >
                 {row.name}
               </TableCell>
