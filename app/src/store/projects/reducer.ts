@@ -7,7 +7,12 @@ import {
   CREATE_NEW_PROJECT_SUCCESS,
   GET_ONE_PROJECT_REQUEST,
   GET_ONE_PROJECT_SUCCESS,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
+  PROJECTS_ONE_PROJECT_FAILURE,
+  PROJECTS_FIND_USER_FAILURE,
   PROJECTS_FAILURE,
+  CLEAR_ERRORS,
   ProjectInitialState,
 } from './types';
 
@@ -16,17 +21,20 @@ export const initialStateProjects: ProjectInitialState = {
   loading: false,
   creatingProject: false,
   currentProject: {
-    id: '',
+    _id: '',
     name: '',
     key: '',
     lead: '',
+    participants: [],
   },
+  error: false,
 };
 
 export default function reducer(state = initialStateProjects, action: AnyAction) {
   switch (action.type) {
     case PROJECTS_LOADING_REQUEST:
     case GET_ONE_PROJECT_REQUEST:
+    case GET_USER_REQUEST:
       return {
         ...state,
         loading: true,
@@ -42,6 +50,7 @@ export default function reducer(state = initialStateProjects, action: AnyAction)
       return {
         ...state,
         rows: action.payload.rows,
+        currentProject: initialStateProjects.currentProject,
         loading: false,
       };
     }
@@ -49,6 +58,16 @@ export default function reducer(state = initialStateProjects, action: AnyAction)
       return {
         ...state,
         creatingProject: false,
+      };
+    }
+    case GET_USER_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        currentProject: {
+          ...state.currentProject,
+          participants: [...state.currentProject.participants, action.payload.userData],
+        },
       };
     }
     case GET_ONE_PROJECT_SUCCESS: {
@@ -60,9 +79,30 @@ export default function reducer(state = initialStateProjects, action: AnyAction)
         currentProject: action.payload.project,
       };
     }
+    case PROJECTS_ONE_PROJECT_FAILURE: {
+      return {
+        ...initialStateProjects,
+        error: true,
+      };
+    }
+    case PROJECTS_FIND_USER_FAILURE: {
+      return {
+        ...state,
+        currentProject: {
+          ...state.currentProject,
+        },
+        loading: false,
+      };
+    }
     case PROJECTS_FAILURE: {
       return {
         ...initialStateProjects,
+      };
+    }
+    case CLEAR_ERRORS: {
+      return {
+        ...initialStateProjects,
+        error: false,
       };
     }
     default:

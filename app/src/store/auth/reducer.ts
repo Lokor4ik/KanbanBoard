@@ -17,7 +17,7 @@ import {
 export const initialStateAuth: AuthInitialState = {
   token: null,
   isAuthenticated: false,
-  loading: true,
+  loading: false,
   user: null,
 };
 
