@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 import User from 'models/User/User';
+import Project from 'models/Project/Project';
 
 import checkErrors from 'utils/middlewareErrors';
 
@@ -61,27 +62,54 @@ const register = async (req: Request, res: Response) => {
   }
 };
 
-const findByEmail = async (req: Request, res: Response) => {
+const addUserInProject = async (req: Request, res: Response) => {
   checkErrors(req, res);
 
   try {
-    const { email } = req.query;
+    const { user: userEmail, projectId } = req.body;
 
-    const user = await User.findOne({ email: String(email) }, { _id: 1, name: 1, email: 1 });
+    const user = await User.findOne({ email: String(userEmail) }, { _id: 1, name: 1, email: 1 });
 
     if (!user) {
       return res.status(404).json({ errors: [{ msg: 'User is not found', severity: 'error' }] });
     }
 
+    const project = await Project.findById(projectId);
+
+    if (!project) {
+      return res.status(404).json({ errors: [{ msg: 'Project not found', severity: 'error' }] });
+    }
+
+    // @ts-ignore
+    const findedUser = project.participants.find((partItem) => partItem.email === userEmail) || project.lead === userEmail;
+
+    if (findedUser) {
+      return res.status(400).json({ errors: [{ msg: 'User already exists on this', severity: 'warning' }] });
+    }
+
     const userData = {
-      user: { _id: user?._id, name: user?.name, email: user?.email },
-      message: { msg: 'User found successfully', severity: 'success' },
+      user: { _id: user._id, name: user.name, email: user.email },
+      message: { msg: 'User added successfully', severity: 'success' },
     };
+
+    await Project.updateOne(
+      { _id: projectId },
+      {
+        $push: {
+          participants: userData.user,
+        },
+      }
+    );
 
     res.json(userData);
   } catch (error) {
+    if (error.kind === 'ObjectId') {
+      res.status(404).json({ errors: [{ msg: 'One of the IDs is incorrect', severity: 'error' }] });
+      return;
+    }
+
     res.status(500).send('Server Error');
   }
 };
 
-export default { register, findByEmail };
+export default { register, addUserInProject };

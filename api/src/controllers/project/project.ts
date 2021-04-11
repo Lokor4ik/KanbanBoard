@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 // import CryptoENC from 'crypto-js/enc-utf8';
 
 import Project from 'models/Project/Project';
+import User from 'models/User/User';
 
 import checkErrors from 'utils/middlewareErrors';
 
@@ -29,11 +30,25 @@ const createProject = async (req: Request, res: Response) => {
   }
 };
 
-const getAllProjects = async (_: Request, res: Response) => {
-  try {
-    const projects = await Project.find();
+const getAllProjects = async (req: Request, res: Response) => {
+  checkErrors(req, res);
 
-    res.json(projects);
+  try {
+    const { userEmail } = req.query;
+
+    const user = await User.findOne({ email: String(userEmail) });
+
+    if (!user) {
+      return res.status(404).json({ errors: [{ msg: 'User not found', severity: 'error' }] });
+    }
+
+    const projects = await Project.find({ participants: { $elemMatch: { email: userEmail } }, lead: String(userEmail) });
+
+    if (projects.length) {
+      res.json(projects);
+    } else {
+      res.json(null);
+    }
   } catch (error) {
     res.status(500).send('Server Error');
   }
@@ -49,6 +64,10 @@ const getOneProject = async (req: Request, res: Response) => {
 
     const project = await Project.findById(id);
 
+    if (!project) {
+      return res.status(404).json({ errors: [{ msg: 'Project not found', severity: 'error' }] });
+    }
+
     res.json(project);
   } catch (error) {
     if (error.kind === 'ObjectId') {
@@ -60,4 +79,57 @@ const getOneProject = async (req: Request, res: Response) => {
   }
 };
 
-export default { createProject, getAllProjects, getOneProject };
+const deleteUserFromProject = async (req: Request, res: Response) => {
+  checkErrors(req, res);
+
+  try {
+    const { projectId, userId } = req.body;
+
+    const project = await Project.findById(projectId);
+
+    if (!project) {
+      return res.status(404).json({ errors: [{ msg: 'Project not found', severity: 'error' }] });
+    }
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ errors: [{ msg: 'User is not found', severity: 'error' }] });
+    }
+
+    // @ts-ignore
+    const findedUser = project.participants.find((partItem) => partItem._id === userId);
+
+    if (!findedUser) {
+      return res.status(404).json({ errors: [{ msg: 'This user is no longer in the project', severity: 'error' }] });
+    }
+
+    await Project.updateOne(
+      { _id: projectId },
+      {
+        $pull: {
+          participants: { _id: userId },
+        },
+      }
+    );
+
+    // @ts-ignore
+    const newParticipants = project.participants.filter((partFilter) => partFilter._id !== userId);
+
+    const data = {
+      participants: newParticipants,
+      message: { msg: 'User deleted successfully', severity: 'success' },
+    };
+
+    res.json(data);
+  } catch (error) {
+    if (error.kind === 'ObjectId') {
+      res.status(404).json({ errors: [{ msg: 'One of the IDs is incorrect', severity: 'error' }] });
+      return;
+    }
+
+    res.status(500).send('Server Error');
+  }
+};
+
+export default { createProject, getAllProjects, getOneProject, deleteUserFromProject };

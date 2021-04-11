@@ -15,6 +15,7 @@ const ProjectSchema = new Schema({
     type: String,
     required: true,
   },
+  participants: [{ _id: String, name: String, email: String }],
   createdAt: {
     type: Date,
     default: Date.now,
