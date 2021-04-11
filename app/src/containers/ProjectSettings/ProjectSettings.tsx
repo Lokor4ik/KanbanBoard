@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { withRouter, RouteComponentProps, useHistory } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -15,7 +15,7 @@ import ProjectSettingsContent from 'components/ProjectSettingsContent/ProjectSet
 import { RouteInfo } from 'containers/Kanban/types';
 
 import { RootState } from 'store/types';
-import { getOneProject } from 'store/projects/action';
+import { clearProjectErrors, getOneProject } from 'store/projects/action';
 
 const useStyles = makeStyles({
   h6: {
@@ -27,8 +27,17 @@ const ProjectSettings: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
   const classes = useStyles();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  const { currentProject, loading } = useSelector((state: RootState) => state.projects);
+  const { currentProject, loading, error } = useSelector((state: RootState) => state.projects);
+
+  useEffect(() => {
+    if (error) {
+      dispatch(clearProjectErrors());
+
+      history.push('/projects');
+    }
+  }, [error, history, dispatch]);
 
   useEffect(() => {
     if (!currentProject._id) {
@@ -69,7 +78,7 @@ const ProjectSettings: React.FC<RouteComponentProps<RouteInfo>> = ({ match }) =>
         Project settings
       </Typography>
 
-      <ProjectSettingsContent lead={currentProject.lead} formik={formik} />
+      <ProjectSettingsContent formik={formik} />
     </div>
   );
 };

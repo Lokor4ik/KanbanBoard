@@ -9,6 +9,8 @@ import {
   GET_ONE_PROJECT_SUCCESS,
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS,
   PROJECTS_ONE_PROJECT_FAILURE,
   PROJECTS_FIND_USER_FAILURE,
   PROJECTS_FAILURE,
@@ -35,6 +37,7 @@ export default function reducer(state = initialStateProjects, action: AnyAction)
     case PROJECTS_LOADING_REQUEST:
     case GET_ONE_PROJECT_REQUEST:
     case GET_USER_REQUEST:
+    case DELETE_USER_REQUEST:
       return {
         ...state,
         loading: true,
@@ -77,6 +80,16 @@ export default function reducer(state = initialStateProjects, action: AnyAction)
         loading: false,
         creatingProject: false,
         currentProject: action.payload.project,
+      };
+    }
+    case DELETE_USER_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        currentProject: {
+          ...state.currentProject,
+          participants: action.payload.participants,
+        },
       };
     }
     case PROJECTS_ONE_PROJECT_FAILURE: {

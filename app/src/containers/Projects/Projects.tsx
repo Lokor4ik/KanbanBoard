@@ -57,11 +57,13 @@ const ProjectsContainer = () => {
 
   const tableContainerClasses = useMemo(
     () =>
-      rows.length >= 13 ? 'projects__wrapper projects__wrapper--box-shadow' : 'projects__wrapper',
-    [rows.length]
+      rows && rows.length >= 13
+        ? 'projects__wrapper projects__wrapper--box-shadow'
+        : 'projects__wrapper',
+    [rows]
   );
 
-  if (loading || creatingProject || !rows.length) {
+  if (loading || creatingProject || (rows && !rows.length)) {
     return <Loader />;
   }
 
@@ -78,7 +80,7 @@ const ProjectsContainer = () => {
           className="link--blue link--no-margins"
         />
       </div>
-      {rows.length ? (
+      {rows?.length ? (
         <ProjectsTable fetchProject={fetchProject} rows={rows} />
       ) : (
         <Typography className={classes.body1} variant="body1">

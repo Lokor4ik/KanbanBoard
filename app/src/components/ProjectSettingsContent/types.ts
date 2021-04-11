@@ -5,5 +5,4 @@ import { RouteInfo } from 'containers/Kanban/types';
 
 export type ProjectSettingsContentProps = RouteComponentProps<RouteInfo> & {
   formik: FormikValues;
-  lead: string;
 };

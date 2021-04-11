@@ -3,6 +3,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { ProjectsSettingsMembersProps } from './types';
@@ -30,39 +31,69 @@ const useStyles = makeStyles({
     backgroundColor: 'inherit',
     padding: 0,
   },
-  submit: {},
+  lead: {
+    fontWeight: 500,
+    color: 'rgba(0, 0, 0, 0.54)',
+    marginTop: 20,
+  },
+  text: {
+    color: 'gray',
+  },
+  deleteBtn: {
+    color: 'gray',
+    transition: 'all ease-in-out .2s',
+    cursor: 'pointer',
+    '&:hover': {
+      color: 'red',
+    },
+  },
 });
 
-const ProjectsSettingsMembers: React.FC<ProjectsSettingsMembersProps> = ({ formik }) => {
+const ProjectsSettingsMembers: React.FC<ProjectsSettingsMembersProps> = ({
+  lead,
+  participants,
+  formik,
+  deleteMember,
+}) => {
   const classes = useStyles();
-  const array: Array<number> = [];
 
   return (
     <div className="project-settings__members">
-      <form onSubmit={formik.handleSubmit}>
-        <TextField
-          fullWidth
-          id="user"
-          name="user"
-          label="Invited user"
-          type="user"
-          value={formik.values.user}
-          onChange={formik.handleChange}
-          error={formik.touched.user && Boolean(formik.errors.user)}
-          helperText={formik.touched.user && formik.errors.user}
-        />
-        <button type="submit">Invite</button>
-      </form>
-
       <div className="members__wrapper">
+        <Typography variant="caption" className={classes.lead}>
+          Lead
+        </Typography>
+        <Typography variant="body1" className={classes.text}>
+          {lead}
+        </Typography>
+
+        <form onSubmit={formik.handleSubmit}>
+          <TextField
+            fullWidth
+            id="user"
+            name="user"
+            label="Invited user"
+            type="user"
+            value={formik.values.user}
+            onChange={formik.handleChange}
+            error={formik.touched.user && Boolean(formik.errors.user)}
+            helperText={formik.touched.user && formik.errors.user}
+          />
+          <button type="submit">Invite</button>
+        </form>
+
         <Typography variant="caption" className={classes.participants}>
           Participants
         </Typography>
-        {array.length ? (
+        {participants.length ? (
           <List className={classes.list}>
-            {array.map((sectionId) => (
-              <ListItem key={`item-${sectionId}-${sectionId}`}>
-                <ListItemText primary={`Item ${sectionId}`} />
+            {participants.map((participant) => (
+              <ListItem key={participant._id}>
+                <ListItemText primary={participant.email} />
+                <HighlightOffIcon
+                  onMouseUp={() => deleteMember(participant._id)}
+                  className={classes.deleteBtn}
+                />
               </ListItem>
             ))}
           </List>

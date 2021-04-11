@@ -1,7 +1,6 @@
 import { withRouter } from 'react-router-dom';
 
 import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 import CustomLink from 'shared/Link/Link';
@@ -18,17 +17,9 @@ const useStyles = makeStyles({
   submit: {
     marginTop: 40,
   },
-  lead: {
-    fontWeight: 500,
-    color: 'rgba(0, 0, 0, 0.54)',
-    marginTop: 20,
-  },
-  text: {
-    color: '#636363',
-  },
 });
 
-const ProjectSettingsContent: React.FC<ProjectSettingsContentProps> = ({ match, formik, lead }) => {
+const ProjectSettingsContent: React.FC<ProjectSettingsContentProps> = ({ match, formik }) => {
   const classes = useStyles();
 
   return (
@@ -55,12 +46,6 @@ const ProjectSettingsContent: React.FC<ProjectSettingsContentProps> = ({ match, 
           error={formik.touched.key && Boolean(formik.errors.key)}
           helperText={formik.touched.key && formik.errors.key}
         />
-        <Typography variant="caption" className={classes.lead}>
-          Lead
-        </Typography>
-        <Typography variant="body1" className={classes.text}>
-          {lead}
-        </Typography>
         <div className="form__link">
           <CustomLink
             title="Project participants"

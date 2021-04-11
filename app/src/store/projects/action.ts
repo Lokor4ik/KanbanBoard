@@ -13,6 +13,8 @@ import {
   GET_ONE_PROJECT_SUCCESS,
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS,
   PROJECTS_ONE_PROJECT_FAILURE,
   PROJECTS_FIND_USER_FAILURE,
   PROJECTS_FAILURE,
@@ -20,6 +22,7 @@ import {
   ParamsNewProject,
   ParamsGetOneProject,
   ParamsGetUserByEmail,
+  ParamsDeleteUser,
 } from './types';
 
 export const getProjects = ({
@@ -120,8 +123,9 @@ export const getOneProject = ({
   }
 };
 
-export const getUserByEmail = ({
+export const addUserInProject = ({
   user,
+  projectId,
   enqueueSnackbar,
 }: ParamsGetUserByEmail & ProviderContextNotistack): RootThunkAction => async (dispatch) => {
   try {
@@ -130,12 +134,8 @@ export const getUserByEmail = ({
     });
 
     const headers = getFetchHeaders();
-    const { user: userData, message } = await request(
-      `/api/user?email=${user}`,
-      'GET',
-      null,
-      headers
-    );
+    const body = JSON.stringify({ user, projectId });
+    const { user: userData, message } = await request('/api/user', 'PATCH', body, headers);
 
     enqueueSnackbar(message.msg, {
       variant: message.severity,
@@ -156,6 +156,43 @@ export const getUserByEmail = ({
 
     dispatch({
       type: PROJECTS_FIND_USER_FAILURE,
+    });
+  }
+};
+
+export const deleteUserFromProject = ({
+  userId,
+  projectId,
+  enqueueSnackbar,
+}: ParamsDeleteUser & ProviderContextNotistack): RootThunkAction => async (dispatch) => {
+  try {
+    dispatch({
+      type: DELETE_USER_REQUEST,
+    });
+
+    const headers = getFetchHeaders();
+    const body = JSON.stringify({ userId, projectId });
+    const { participants, message } = await request('/api/project/one', 'PATCH', body, headers);
+
+    enqueueSnackbar(message.msg, {
+      variant: message.severity,
+    });
+
+    dispatch({
+      type: DELETE_USER_SUCCESS,
+      payload: { participants },
+    });
+  } catch (error) {
+    const errors = handleErrors(error);
+
+    errors.map(({ msg, severity }) =>
+      enqueueSnackbar(msg, {
+        variant: severity,
+      })
+    );
+
+    dispatch({
+      type: PROJECTS_FAILURE,
     });
   }
 };
